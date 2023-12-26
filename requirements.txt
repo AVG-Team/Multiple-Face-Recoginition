@@ -1,0 +1,7 @@
+numpy~=1.26.2
+opencv-python~=4.5.4.60
+cvzone~=1.6.1
+face-recognition
+firebase-admin
+cvzone
+datetime
