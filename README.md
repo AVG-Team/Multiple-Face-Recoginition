@@ -2,10 +2,10 @@
 	<img loading="lazy" src="./assets/images/law.png" alt="Law Knowledge" height="150">
 </p>
 
-<h1 align="center">Food Recognition</h1>
+<h1 align="center">FACE RECOGNITION</h1>
 
 <p align="center">
-	Food Recognition Application
+	FACE RECOGNITION
 <p>
 
 <p align="center">
