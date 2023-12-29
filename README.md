@@ -12,30 +12,6 @@
 
 ## 📖 Contributing Guidelines
 
-<p align="justify">
-
-We are excited that you are interested in contributing to this project! Before submitting your contribution, please make sure to take a moment and read through the following guidelines:
-
-Read through our [contributing guidelines](.github/CONTRIBUTING.md) to learn about our submission process, coding rules, and more.
-
-</p>
-
-## 💁 Want to Help?
-
-<p align="justify">
-
-Want to report a bug, contribute some code, or improve the documentation? Excellent! Read up on our guidelines for [contributing](.github/CONTRIBUTING.md) and then check out one of our issues labeled as <kbd>[help wanted](https://github.com/foxminchan/LawKnowledge/labels/help%20wanted)</kbd> or <kbd>[good first issue](https://github.com/foxminchan/LawKnowledge/labels/good%20first%20issue)</kbd>.
-
-</p>
-
-## 🫂 Code of Conduct
-
-<p align="justify">
-
-Help us keep Law Knowledge open and inclusive. Please read and follow our [Code of Conduct](.github/CODE_OF_CONDUCT.md).
-
-</p>
-
 # Contributor
 
 <p align="justify">
@@ -48,34 +24,31 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 	<table>
 		<tr>
 			<td align="center" valign="top">
-					<img src="https://github.com/foxminchan.png?s=150" loading="lazy" width="150" height="150">
+					<img src="https://github.com/ntd1683.png?s=150" loading="lazy" width="150" height="150">
 	        <br>
-	        <a href="https://github.com/foxminchan">Xuan Nhan</a>
+	        <a href="https://github.com/ntd1683">Tan Dung</a>
 	        <p>
-	          <a href="https://github.com/HutechCJ/ProfioApp/commits?author=foxminchan" title="Developer">💻</a>
+	          <a href="https://github.com/ntd1683/Multiple-Face-Recoginition/commits?author=foxminchan" title="Developer">💻</a>
 	          <a href="#docs" title="Documentation">📖</a>
 	          <a href="#infra" title="Infrastructure">🚇</a>
-						<a href="#projectManagement" title="Project Management">📆</a>
-						<a href="#mentoring" title="Mentoring">🧑‍🏫</a>
 	        </p>
 			</td>
 			<td align="center" valign="top">
 					<img src="https://github.com/huynguyenjv.png?s=150" loading="lazy" width="150" height="150">
 	        <br>
-	        <a href="https://github.com/huynguyenjv">Bao Huy</a>
+	        <a href="https://github.com/huynguyenjv">Huy Nguyen</a>
 	        <p>
-	          <a href="https://github.com/foxminchan/LawKnowledge/commits?author=baohuy2k3" title="Developer">💻</a>
+	          <a href="https://github.com/ntd1683/Multiple-Face-Recoginition/commits?author=baohuy2k3" title="Developer">💻</a>
 						<a href="#data" title="Data">🔣</a>
-						<a href="#design" title="Design">🎨</a>
 						<a href="#research" title="Research">🔬</a>
 	        </p>
 			</td>
 			<td align="center" valign="top">
-					<img src="https://github.com/NguyenTriBaoThang.png?s=150" loading="lazy" width="150" height="150">
+					<img src="https://github.com/Asa-Nguyen.png?s=150" loading="lazy" width="150" height="150">
 	        <br>
-	        <a href="https://github.com/NguyenTriBaoThang">Bao Thang</a>
+	        <a href="https://github.com/Asa-Nguyen">Nguyen Hung</a>
 	        <p>
-	          <a href="https://github.com/foxminchan/LawKnowledge/commits?author=NguyenTriBaoThang" title="Developer">💻</a>
+	          <a href="https://github.com/ntd1683/Multiple-Face-Recoginition/commits?author=NguyenTriBaoThang" title="Developer">💻</a>
 						<a href="#design" title="Design">🎨</a>
 						<a href="#test" title="Test">🧪</a>
 						<a href="#userTesting" title="User Testing">📓</a>
@@ -89,16 +62,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <p align="center">
 	<a href="https://hutech.edu.vn/" target="_blank">
-		<img loading="lazy" src="./assets/images/hutech.png" height="60px" alt="Hutech">
-	</a>
-	<a href="https://vfossa.vn/" target="_blank">
-		<img loading="lazy" src="./assets/images/vfossa.png" height="60px" alt="Hutech">
-	</a>
-	<a href="http://husc.hueuni.edu.vn/" target="_blank">
-		<img loading="lazy" src="./assets/images/husc.jpg" height="60px" alt="Husc">
-	</a>
-	<a href="https://olp.husc.edu.vn/" target="_blank">
-		<img loading="lazy" src="./assets/images/icpc.jpg" height="60px" alt="ICPC">
+		<img loading="lazy" src="https://th.bing.com/th/id/OIP.wE2SX8Fq6JLAaaf93l8vtQHaCY?rs=1&pid=ImgDetMain" height="120px" alt="Hutech">
 	</a>
 </p>
 
