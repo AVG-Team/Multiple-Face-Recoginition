@@ -72,7 +72,6 @@ if faceCurFrame:
                 cv2.imshow("Face Attendance", imgBackground)
                 counter = 1
                 modeType = 1
-        print('counter : ' + str(counter))
         if counter != 0:
             if counter == 1:
                 # Get the Data
@@ -99,8 +98,10 @@ if faceCurFrame:
                 if 10 < counter < 20:
                     modeType = 2
 
-                print("check modeType student" + str(counter))
                 imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[modeType]
+
+                counter += 1
+
                 if counter <= 10:
                     cv2.putText(imgBackground, str(studentInfo['total_attendance']), (861, 125),
                                 cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1)
@@ -120,11 +121,13 @@ if faceCurFrame:
                     cv2.putText(imgBackground, str(studentInfo['name']), (808 + offset, 445),
                                 cv2.FONT_HERSHEY_COMPLEX, 1, (50, 50, 50), 1)
 
-                    print("check info student")
                     imgBackground[175:175 + 216, 909:909 + 216] = imgStudent
-                counter += 1
+                    outputFolder = './Attendance/' + datetime.now().strftime("%Y%m%d%H") + '/'
+                    os.makedirs(outputFolder, exist_ok=True)
+                    cv2.imwrite(outputFolder + str(studentInfo['id']) + '.png', imgStudent)
+                    counter = 0
+
                 if counter >= 20:
-                    print("counter >20")
                     counter = 0
                     modeType = 0
                     studentInfo = []
