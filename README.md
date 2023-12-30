@@ -1,5 +1,5 @@
 <p align="center">
-	<img loading="lazy" src="robot.png" alt="Law Knowledge" height="150">
+	<img loading="lazy" src="img/robot.png" alt="Law Knowledge" height="150">
 </p>
 
 <h1 align="center">FACE RECOGNITION</h1>
