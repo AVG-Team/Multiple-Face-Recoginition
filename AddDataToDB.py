@@ -43,6 +43,7 @@ data = {
     "2180607":
         {
             "name": "Nguyen Mai Bao Huy",
+            "id": "2180607",
             "major": "IT",
             "starting_year": 2021,
             "total_attendance": 8,
@@ -53,6 +54,7 @@ data = {
     "2180608":
         {
             "name": "Nguyen Hung",
+            "id": "2180608",
             "major": "IT",
             "starting_year": 2021,
             "total_attendance": 8,
