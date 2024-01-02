@@ -48,7 +48,7 @@ def recognition_face(input):
     imgStudent = []
 
     # input
-    img = cv2.imread(input)
+    img = cv2.imread('Test/multiple.png')
 
     imgS = cv2.resize(img, (0, 0), None, 1, 1)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
@@ -69,6 +69,7 @@ def recognition_face(input):
                 print("Known Face Detected")
                 imageName = studentIds[matchIndex]
                 studentInfo = db.reference(f'Students/{imageName}').get()
+                print(studentInfo)
                 print(studentInfo)
                 y1, x2, y2, x1 = faceLoc
                 if counter == 0:
@@ -93,7 +94,6 @@ def recognition_face(input):
                         ref.child('total_attendance').set(studentInfo['total_attendance'])
                         ref.child('last_attendance_time').set(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                     else:
-                        modeType = 3
                         counter = 0
                 if modeType != 3:
                     if 10 < counter < 20:
@@ -114,6 +114,7 @@ def recognition_face(input):
                         studentInfo = []
                         imgStudent = []
     else:
+        print("1123")
         modeType = 0
         counter = 0
     return listStudentInfo

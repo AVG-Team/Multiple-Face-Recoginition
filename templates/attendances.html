@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/attendances.css">
+    <title>Attendance</title>
+</head>
+<body>
+     <header>
+<h1>Photo Gallery - {{ folder }}</h1>
+  </header>
+
+  <main>
+    <div id="gallery">
+        {% for image in images %}
+        <div class="img-item"><img src="{{ url_for('get_image', folder=folder, filename=image) }}" alt="{{ image }}"><p>{{ image }}</p></div>
+        {% endfor %}
+    </div>
+  </main>
+
+<script src="/static/js/attendance.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+h1 {
+  text-align: center;
+}
+
+#gallery {
+  display: grid;
+  max-width: 1000px;
+  margin: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.img-item {
+  opacity: 0;
+  filter: blur(10px);
+  width: 100%;
+}
+
+.img-item img {
+  width: 100%;
+  height: auto;
+}
+
+.img-item p {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  color: #EEE;
+}

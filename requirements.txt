@@ -4,4 +4,6 @@ cvzone~=1.6.1
 face-recognition
 firebase-admin
 cvzone
-datetime
+datetime~=5.4
+flask~=3.0.0
+Pillow~=10.1.0
