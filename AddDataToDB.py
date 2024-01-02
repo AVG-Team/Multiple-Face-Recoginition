@@ -61,6 +61,17 @@ data = {
             "standing": "G",
             "year": 5,
             "last_attendance_time": "2022-12-11 00:54:34"
+        },
+    "2144422":
+        {
+            "id": "2144422",
+            "name": "Nguyen Hoang",
+            "major": "IT",
+            "starting_year": 2021,
+            "total_attendance": 8,
+            "standing": "G",
+            "year": 5,
+            "last_attendance_time": "2022-12-11 00:54:34"
         }
 }
 

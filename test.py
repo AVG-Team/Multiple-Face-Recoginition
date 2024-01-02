@@ -43,7 +43,9 @@ def upload_file():
         if not listStudentInfo:
             return jsonify({'error': 'No face detected'})
 
-        return jsonify({'message': 'File uploaded successfully', 'data': listStudentInfo, 'folder': str(datetime.now().strftime("%Y%m%d%H"))})
+        time = (datetime.now().strftime(" "))
+        print(time)
+        return jsonify({'message': 'File uploaded successfully', 'data': listStudentInfo, 'folder': time})
 
     return jsonify({'error': 'Invalid file type'})
 

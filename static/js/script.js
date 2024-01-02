@@ -23,7 +23,7 @@ function dataURItoBlob(dataURI) {
         intArray[i] = byteString.charCodeAt(i);
     }
 
-    return new Blob([arrayBuffer], { type: mimeString });
+    return new Blob([arrayBuffer], {type: mimeString});
 }
 
 items.forEach((item) => {
@@ -34,10 +34,13 @@ items.forEach((item) => {
     item.classList.contains('is-active') && handleIndicator(item);
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+let cameraFront = true;
+
+document.addEventListener('DOMContentLoaded', function () {
     const openCameraButton = document.getElementById('open_camera');
     const cameraOutput = document.getElementById('camera_output');
     const captureButton = document.getElementById('capture_button');
+    const captureArrow = document.getElementById('capture_arrow');
     const capturedImage = document.getElementById('captured_image');
     const upload = document.getElementById('upload_button');
     const folder = document.getElementById('folder_open');
@@ -46,16 +49,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let capturedDataURL = '';
 
-    openCameraButton.addEventListener('click', async() => {
+    openCameraButton.addEventListener('click', async () => {
         try {
             body[0].classList.add("center");
 
             console.log(123);
             cameraOutput.classList.remove("hidden");
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}});
 
             cameraOutput.srcObject = stream;
             captureButton.classList.remove("hidden");
+            captureArrow.classList.remove("hidden");
 
             openCameraButton.classList.add("hidden");
         } catch (error) {
@@ -80,7 +84,20 @@ document.addEventListener('DOMContentLoaded', function() {
         capturedImage.src = imageURL;
         capturedImage.classList.remove("hidden");
         upload.classList.remove("hidden");
-        upload.classList.add("w-50");
+        upload.classList.add("w-fit");
+    })
+    captureArrow.addEventListener("click", async () => {
+        let stream;
+        if (cameraFront) {
+            cameraFront = false;
+            stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}});
+        }
+        else {
+            cameraFront = true;
+            stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}});
+        }
+
+        cameraOutput.srcObject = stream;
     })
 
     upload.addEventListener("click", () => {
@@ -93,9 +110,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(formData, capturedDataURL, blob)
 
             fetch('/upload', {
-                    method: 'POST',
-                    body: formData,
-                })
+                method: 'POST',
+                body: formData,
+            })
                 .then(response => response.json())
                 .then(data => {
                     if ('error' in data) {

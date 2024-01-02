@@ -48,7 +48,7 @@ def recognition_face(input):
     imgStudent = []
 
     # input
-    img = cv2.imread('Test/multiple.png')
+    img = cv2.imread(input)
 
     imgS = cv2.resize(img, (0, 0), None, 1, 1)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
@@ -101,7 +101,7 @@ def recognition_face(input):
                     counter += 1
                     if counter <= 10:
                         # Create a photo when taking attendance
-                        outputFolder = './Attendance/' + datetime.now().strftime("%Y%m%d%H") + '/'
+                        outputFolder = './Attendance/' + datetime.now().strftime("%Y%m%d%H%M%S") + '/'
                         os.makedirs(outputFolder, exist_ok=True)
                         cv2.imwrite(outputFolder + str(studentInfo['id']) + '.png', imgStudent)
 
