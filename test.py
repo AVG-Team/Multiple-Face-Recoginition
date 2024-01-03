@@ -34,7 +34,7 @@ def upload_file():
         return jsonify({'error': 'No selected file'})
 
     if file and allowed_file(file.filename):
-        name = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + file.filename
+        name = datetime.now().strftime("%Y%m%d%H%M") + "_" + file.filename
         filename = os.path.join(app.config['UPLOAD_FOLDER'], name)
         file.save(filename)
 
@@ -43,7 +43,7 @@ def upload_file():
         if not listStudentInfo:
             return jsonify({'error': 'No face detected'})
 
-        time = (datetime.now().strftime(" "))
+        time = (datetime.now().strftime("%Y%m%d%H%M"))
         print(time)
         return jsonify({'message': 'File uploaded successfully', 'data': listStudentInfo, 'folder': time})
 

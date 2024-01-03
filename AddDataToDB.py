@@ -85,7 +85,8 @@ data = {
         },
     "123":
         {
-            "name": "Emly Blunt",
+            "name": "Hoang Chau",
+            "id":"2180605",
             "major": "Economics",
             "starting_year": 2021,
             "total_attendance": 12,
@@ -95,7 +96,8 @@ data = {
         },
     "343":
         {
-            "name": "Elon Musk",
+            "name": "GIA BAO",
+            "id": "2180604",
             "major": "Physics",
             "starting_year": 2020,
             "total_attendance": 7,
@@ -105,8 +107,8 @@ data = {
         },
     "3432":
         {
-            "name": "Nguyen Mai Bao Huy",
-            "id": "2180607",
+            "name": "Bao Uyen",
+            "id": "2180603",
             "major": "IT",
             "starting_year": 2021,
             "total_attendance": 8,
@@ -116,8 +118,8 @@ data = {
         },
     "3532":
         {
-            "name": "Nguyen Hung",
-            "id": "2180608",
+            "name": "Nguyen Khai",
+            "id": "2180602",
             "major": "IT",
             "starting_year": 2021,
             "total_attendance": 8,
@@ -127,8 +129,8 @@ data = {
         },
     "5353":
         {
-            "name": "Nguyen Hung",
-            "id": "2180608",
+            "name": "ThanhQuang",
+            "id": "2180601",
             "major": "IT",
             "starting_year": 2021,
             "total_attendance": 8,

@@ -101,7 +101,7 @@ def recognition_face(input):
                     counter += 1
                     if counter <= 10:
                         # Create a photo when taking attendance
-                        outputFolder = './Attendance/' + datetime.now().strftime("%Y%m%d%H%M%S") + '/'
+                        outputFolder = './Attendance/' + datetime.now().strftime("%Y%m%d%H%M") + '/'
                         os.makedirs(outputFolder, exist_ok=True)
                         cv2.imwrite(outputFolder + str(studentInfo['id']) + '.png', imgStudent)
 
@@ -118,3 +118,6 @@ def recognition_face(input):
         modeType = 0
         counter = 0
     return listStudentInfo
+
+
+# recognition_face('testthay.png')

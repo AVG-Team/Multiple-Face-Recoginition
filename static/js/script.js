@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cameraOutput.srcObject = stream;
             captureButton.classList.remove("hidden");
             captureArrow.classList.remove("hidden");
-
+            flipVideo();
             openCameraButton.classList.add("hidden");
         } catch (error) {
             alert("Cannot open camera")
@@ -76,6 +76,8 @@ document.addEventListener('DOMContentLoaded', function () {
         canvas.height = cameraOutput.videoHeight;
 
         const context = canvas.getContext('2d');
+        context.translate(cameraFront ? canvas.width : 0, 0);
+        context.scale(cameraFront ? -1 : 1, 1);
         context.drawImage(cameraOutput, 0, 0, canvas.width, canvas.height);
 
         const imageURL = canvas.toDataURL('image/png');
@@ -91,12 +93,13 @@ document.addEventListener('DOMContentLoaded', function () {
         if (cameraFront) {
             cameraFront = false;
             stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}});
-        }
-        else {
+
+        } else {
             cameraFront = true;
             stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}});
         }
 
+        flipVideo();
         cameraOutput.srcObject = stream;
     })
 
@@ -133,4 +136,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         }
     })
+
+    function flipVideo() {
+        cameraOutput.style.transform = cameraFront ? "scaleX(-1)" : "scaleX(1)";
+    }
 });
