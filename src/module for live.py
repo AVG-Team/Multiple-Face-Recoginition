@@ -23,7 +23,7 @@ cap = cv2.VideoCapture(0)
 cap.set(3, 640)
 cap.set(4, 480)
 
-imgBackground = cv2.imread('Resources/background.png')
+imgBackground = cv2.imread('../Resources/background.png')
 
 # Importing the mode images into a list
 folderModePath = 'Resources/Modes'
@@ -35,7 +35,7 @@ for path in modePathList:
 
 # Load the encoding file
 print("Loading Encode File ...")
-file = open('EncodeFile.p', 'rb')
+file = open('data preprocessing/EncodeFile.p', 'rb')
 encodeListKnownWithIds = pickle.load(file)
 file.close()
 encodeListKnown, studentIds = encodeListKnownWithIds

@@ -5,13 +5,13 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import storage
 
-cred = credentials.Certificate("serviceAccountKey.json")
+cred = credentials.Certificate("../../serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://face-recoginiton-default-rtdb.firebaseio.com/",
     'storageBucket': "face-recoginiton.appspot.com"
 })
 
-folderPath = "Images"
+folderPath = "../../Images"
 pathList = os.listdir(folderPath)
 print(pathList)
 imgList = []

@@ -23,7 +23,6 @@ listStudentInfo = []
 
 # endregion
 def recognition_face(input):
-    imgBackground = cv2.imread('Resources/background.png')
 
     # Importing the mode images into a list
     folderModePath = 'Resources/Modes'
@@ -35,7 +34,7 @@ def recognition_face(input):
 
     # Load the encoding file
     print("Loading Encode File ...")
-    file = open('EncodeFile.p', 'rb')
+    file = open('data preprocessing/EncodeFile.p', 'rb')
     encodeListKnownWithIds = pickle.load(file)
     file.close()
     encodeListKnown, studentIds = encodeListKnownWithIds
@@ -53,12 +52,10 @@ def recognition_face(input):
     imgS = cv2.resize(img, (0, 0), None, 1, 1)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
-    faceCurFrame = face_recognition.face_locations(imgS)
+    faceCurFrame = face_recognition.face_locations(imgS, model="cnn")
     encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame)
 
     imgShow = cv2.resize(img, (635, 480))
-    imgBackground[160:160 + 480, 55:55 + 635] = imgShow
-    imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[modeType]
 
     if faceCurFrame:
         for encodeFace, faceLoc in zip(encodeCurFrame, faceCurFrame):

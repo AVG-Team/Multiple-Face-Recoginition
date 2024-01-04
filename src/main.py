@@ -1,5 +1,5 @@
 import cv2
-from main import recognition_face
+from module import recognition_face
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 from datetime import datetime
@@ -66,7 +66,7 @@ def attendances():
     if not re.match("^[a-zA-Z0-9_-]+$", folder_name):
         return render_template('400.html'), 400
 
-    folder_path = os.path.join('Attendance', folder_name)
+    folder_path = os.path.join('../Attendance', folder_name)
 
     if not os.path.exists(folder_path):
         return render_template('404.html'), 404
@@ -88,7 +88,7 @@ def attendances():
 
 @app.route('/image/<folder>/<filename>')
 def get_image(folder, filename):
-    folder_path = os.path.join('Attendance', folder)
+    folder_path = os.path.join('../Attendance', folder)
     return send_from_directory(folder_path, filename)
 
 
