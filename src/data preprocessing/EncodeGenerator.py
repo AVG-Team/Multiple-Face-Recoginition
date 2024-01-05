@@ -5,45 +5,51 @@ import os
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
-from firebase_admin import  storage
+from firebase_admin import storage
 
-cred = credentials.Certificate("serviceAccountKey.json")
+cred = credentials.Certificate("../../serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://face-recoginiton-default-rtdb.firebaseio.com/",
     'storageBucket': "face-recoginiton.appspot.com"
 })
 
 
+def extract_first_number(identifier):
+    numbers = [int(num) for num in identifier.split('_') if num.isdigit()]
+    if numbers:
+        return numbers[0]
+    else:
+        return ''.join(char for char in identifier if char.isdigit())
+
 # Importing student images
-folderPath = 'Images'
+
+folderPath = '../../Images/processed'
 pathList = os.listdir(folderPath)
 print(pathList)
 imgList = []
 studentIds = []
 for path in pathList:
-    imgList.append(cv2.imread(os.path.join(folderPath, path)))
-    studentIds.append(os.path.splitext(path)[0])
-
-    fileName = f'{folderPath}/{path}'
-    bucket = storage.bucket()
-    blob = bucket.blob(fileName)
-    blob.upload_from_filename(fileName)
-
-
-    # print(path)
-    # print(os.path.splitext(path)[0])
-print(studentIds)
+    folderPathName = os.path.join(folderPath, path)
+    files = os.listdir(folderPathName)
+    for file in files:
+        imgList.append(cv2.imread(os.path.join(folderPathName, file)))
+        studentIds.append(extract_first_number(file))
 
 
 def findEncodings(imagesList):
     encodeList = []
     for img in imagesList:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        encode = face_recognition.face_encodings(img)[0]
-        encodeList.append(encode)
+        face_encodings = face_recognition.face_encodings(img)
+        if face_encodings:
+            encodeList.append(face_encodings[0])
 
     return encodeList
 
+
+for i in studentIds:
+    if i is None:
+        print("No student")
 
 print("Encoding Started ...")
 encodeListKnown = findEncodings(imgList)

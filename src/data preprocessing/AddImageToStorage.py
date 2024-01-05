@@ -11,7 +11,9 @@ firebase_admin.initialize_app(cred, {
     'storageBucket': "face-recoginiton.appspot.com"
 })
 
-folderPath = "../../Images"
+folderPath = "../../Images/processed"
+
+folderUpload = "Images"
 pathList = os.listdir(folderPath)
 print(pathList)
 imgList = []
@@ -19,11 +21,16 @@ studentIds = []
 for path in pathList:
     imgList.append(cv2.imread(os.path.join(folderPath, path)))
     studentIds.append(os.path.splitext(path)[0])
-    print(path)
-    print(os.path.splitext(path)[0])
 
-    filename = os.path.join(f'{folderPath}/{path}')
-    bucket = storage.bucket()
-    blob = bucket.blob(filename)
-    blob.upload_from_filename(filename)
-print(studentIds)
+    folderPathName = os.path.join(f'{folderPath}/{path}')
+    files = os.listdir(folderPathName)
+    for file in files:
+        filename = os.path.join(folderPathName, file)
+        filenameUpload = os.path.join(f'{folderUpload}/{path}/{file}')
+        print(filenameUpload)
+        bucket = storage.bucket()
+        blob = bucket.blob(filenameUpload)
+        blob.upload_from_filename(filename)
+
+print("success")
+

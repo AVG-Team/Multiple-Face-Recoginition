@@ -11,7 +11,7 @@ import firebase_admin
 from firebase_admin import credentials
 
 # region Init Firebase
-cred = credentials.Certificate("serviceAccountKey.json")
+cred = credentials.Certificate("../serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://face-recoginiton-default-rtdb.firebaseio.com/",
     'storageBucket': "face-recoginiton.appspot.com"
@@ -21,15 +21,14 @@ bucket = storage.bucket()
 
 listStudentInfo = []
 
+
+def resize_image(image, target_width):
+    height, width = image.shape[:2]
+    scale_factor = target_width / width
+    return cv2.resize(image, (int(width * scale_factor), int(height * scale_factor)))
+
 # endregion
 def recognition_face(input):
-
-    # Importing the mode images into a list
-    folderModePath = 'Resources/Modes'
-    modePathList = os.listdir(folderModePath)
-    imgModeList = []
-    for path in modePathList:
-        imgModeList.append(cv2.imread(os.path.join(folderModePath, path)))
     # print(len(imgModeList))
 
     # Load the encoding file
@@ -52,10 +51,11 @@ def recognition_face(input):
     imgS = cv2.resize(img, (0, 0), None, 1, 1)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
+    print("start")
     faceCurFrame = face_recognition.face_locations(imgS, model="cnn")
     encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame)
 
-    imgShow = cv2.resize(img, (635, 480))
+    print("check")
 
     if faceCurFrame:
         for encodeFace, faceLoc in zip(encodeCurFrame, faceCurFrame):
@@ -65,20 +65,20 @@ def recognition_face(input):
             if matches[matchIndex]:
                 print("Known Face Detected")
                 imageName = studentIds[matchIndex]
+                print(imageName)
                 studentInfo = db.reference(f'Students/{imageName}').get()
-                print(studentInfo)
                 print(studentInfo)
                 y1, x2, y2, x1 = faceLoc
                 if counter == 0:
-                    cvzone.putTextRect(imgBackground, "Loading", (275, 400))
                     counter = 1
                     modeType = 1
             if counter != 0:
                 if counter == 1:
                     # Get the Data
                     studentInfo = db.reference(f'Students/{imageName}').get()
+                    print(studentInfo, imageName)
                     # Get the Image from the storage
-                    blob = bucket.get_blob(f'Images/{imageName}.png')
+                    blob = bucket.get_blob(f'Images/{imageName}/{imageName}.png')
                     array = np.frombuffer(blob.download_as_string(), np.uint8)
                     imgStudent = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
                     # Update data of attendance
@@ -117,4 +117,4 @@ def recognition_face(input):
     return listStudentInfo
 
 
-# recognition_face('testthay.png')
+recognition_face("../Test/testthay.png")

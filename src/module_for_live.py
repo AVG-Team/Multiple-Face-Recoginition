@@ -11,7 +11,7 @@ from firebase_admin import storage
 import numpy as np
 from datetime import datetime
 
-cred = credentials.Certificate("serviceAccountKey.json")
+cred = credentials.Certificate("../serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://face-recoginiton-default-rtdb.firebaseio.com/",
     'storageBucket': "face-recoginiton.appspot.com"
@@ -26,7 +26,7 @@ cap.set(4, 480)
 imgBackground = cv2.imread('../Resources/background.png')
 
 # Importing the mode images into a list
-folderModePath = 'Resources/Modes'
+folderModePath = '../Resources/Modes'
 modePathList = os.listdir(folderModePath)
 imgModeList = []
 for path in modePathList:
@@ -85,12 +85,13 @@ while True:
                     modeType = 1
 
         if counter != 0:
+
             if counter == 1:
                 # Get the Data
                 studentInfo = db.reference(f'Students/{id}').get()
                 print(studentInfo)
                 # Get the Image from the storage
-                blob = bucket.get_blob(f'Images/{id}.png')
+                blob = bucket.get_blob(f'Images/{id}/{id}.png')
                 array = np.frombuffer(blob.download_as_string(), np.uint8)
                 imgStudent = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
                 # Update data of attendance
@@ -134,7 +135,8 @@ while True:
                     cv2.putText(imgBackground, str(studentInfo['name']), (808 + offset, 445),
                                 cv2.FONT_HERSHEY_COMPLEX, 1, (50, 50, 50), 1)
 
-                    imgBackground[175:175 + 216, 909:909 + 216] = imgStudent
+                    imgStudent_resized = cv2.resize(imgStudent, (216, 216))
+                    imgBackground[175:175 + 216, 909:909 + 216] = imgStudent_resized
 
                 counter += 1
 
