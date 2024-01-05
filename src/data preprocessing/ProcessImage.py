@@ -41,11 +41,6 @@ def crop_face(input_path, output_path):
                         else:
                             output_image_path_tmp = os.path.join(output_folder_path, f"{filename}")
 
-                        flipped_horizontal = cropped_image.transpose(Image.FLIP_LEFT_RIGHT)
-                        flipped_vertical = cropped_image.transpose(Image.FLIP_TOP_BOTTOM)
-
-                        flipped_horizontal.save(os.path.join(output_folder_path, f"{os.path.splitext(filename)[0]}_1.png"))
-                        flipped_vertical.save(os.path.join(output_folder_path, f"{os.path.splitext(filename)[0]}_2.png"))
                         cropped_image.save(output_image_path_tmp)
 
                         print(f"Đã cắt ảnh {filename} thành công")

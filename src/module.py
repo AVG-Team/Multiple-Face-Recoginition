@@ -52,14 +52,16 @@ def recognition_face(input):
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
     print("start")
-    faceCurFrame = face_recognition.face_locations(imgS, model="cnn")
-    encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame)
+    faceCurFrame = face_recognition.face_locations(imgS,number_of_times_to_upsample=2, )
+    encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame, num_jitters=100)
 
     print("check")
 
     if faceCurFrame:
+        i = 0
         for encodeFace, faceLoc in zip(encodeCurFrame, faceCurFrame):
-            matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
+            print(i+1)
+            matches = face_recognition.compare_faces(encodeListKnown, encodeFace, tolerance=0.5)
             faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
             matchIndex = np.argmin(faceDis)
             if matches[matchIndex]:
