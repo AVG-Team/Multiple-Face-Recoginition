@@ -21,9 +21,10 @@ def extract_first_number(identifier):
     else:
         return ''.join(char for char in identifier if char.isdigit())
 
+
 # Importing student images
 
-folderPath = '../../Images/processed'
+folderPath = '../../Images/three_year'
 pathList = os.listdir(folderPath)
 print(pathList)
 imgList = []
@@ -59,7 +60,7 @@ encodeListKnown = findEncodings(imgList)
 encodeListKnownWithIds = [encodeListKnown, studentIds]
 print("Encoding Complete")
 
-file = open("EncodeFile.p", 'wb')
+file = open("t_EncodeFile.p", 'wb')
 pickle.dump(encodeListKnownWithIds, file)
 file.close()
 print("File Saved")

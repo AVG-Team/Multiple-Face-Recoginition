@@ -27,13 +27,14 @@ def resize_image(image, target_width):
     scale_factor = target_width / width
     return cv2.resize(image, (int(width * scale_factor), int(height * scale_factor)))
 
+
 # endregion
 def recognition_face(input):
     # print(len(imgModeList))
 
     # Load the encoding file
     print("Loading Encode File ...")
-    file = open('data preprocessing/EncodeFile.p', 'rb')
+    file = open('data preprocessing/t_EncodeFile.p', 'rb')
     encodeListKnownWithIds = pickle.load(file)
     file.close()
     encodeListKnown, studentIds = encodeListKnownWithIds
@@ -52,7 +53,9 @@ def recognition_face(input):
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
     print("start")
-    faceCurFrame = face_recognition.face_locations(imgS,number_of_times_to_upsample=2, )
+    faceCurFrame = face_recognition.face_locations(imgS, number_of_times_to_upsample=2, model="cnn")
+
+    print("start encode")
     encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame, num_jitters=100)
 
     print("check")
@@ -60,7 +63,7 @@ def recognition_face(input):
     if faceCurFrame:
         i = 0
         for encodeFace, faceLoc in zip(encodeCurFrame, faceCurFrame):
-            print(i+1)
+            print(i + 1)
             matches = face_recognition.compare_faces(encodeListKnown, encodeFace, tolerance=0.5)
             faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
             matchIndex = np.argmin(faceDis)
@@ -100,7 +103,7 @@ def recognition_face(input):
                     counter += 1
                     if counter <= 10:
                         # Create a photo when taking attendance
-                        outputFolder = './Attendance/' + datetime.now().strftime("%Y%m%d%H%M") + '/'
+                        outputFolder = '../Attendance/' + datetime.now().strftime("%Y%m%d%H%M") + '/'
                         os.makedirs(outputFolder, exist_ok=True)
                         cv2.imwrite(outputFolder + str(studentInfo['id']) + '.png', imgStudent)
 
@@ -119,4 +122,4 @@ def recognition_face(input):
     return listStudentInfo
 
 
-recognition_face("../Test/testthay.png")
+recognition_face("../Test/threre.jpg")
