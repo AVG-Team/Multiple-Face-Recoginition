@@ -1,3 +1,5 @@
+import csv
+
 import cv2
 from firebase_admin import db
 
@@ -81,6 +83,7 @@ def attendances():
         return render_template('404.html'), 404
 
     image_list = []
+    info_list = {}
 
     for filename in os.listdir(folder_path):
         if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -92,9 +95,17 @@ def attendances():
                 image_list.append(filename)
             except Exception as e:
                 print(f"Tệp {filename} bị lỗi: {str(e)}")
+    csv_file_path =folder_path + "/students.csv"
+    # Mở file CSV
+    with open(csv_file_path, 'r', newline='') as file:
+        # Đọc dữ liệu từ file CSV
+        csv_reader = csv.DictReader(file)
+        # Lặp qua từng dòng và hiển thị thông tin
+        for row in csv_reader:
+            info_list[row['id']] = row['name']
 
-    return render_template('attendances.html', images=image_list, folder=folder_name)
-
+        print(info_list,info_list['2180607368'])
+    return render_template('attendances.html', images=image_list, folder=folder_name, info=info_list)
 
 def file_exists(file_path):
     return os.path.exists(file_path) and os.path.isfile(file_path)
@@ -103,21 +114,25 @@ def file_exists(file_path):
 @app.route("/attendance/export", methods=['POST'])
 def export_attendance():
     if request.method != 'POST':
+        print(1)
         return render_template('400.html'), 400
 
-    folder_name = request.args.get('q', '')
-
+    folder_name = request.form.get('q', '')
+    print(folder_name)
     if not re.match("^[a-zA-Z0-9_-]+$", folder_name):
+        print(2)
         return render_template('400.html'), 400
 
     folder_path = os.path.join('../Attendance', folder_name)
 
     if not os.path.exists(folder_path):
+        print(3)
         return render_template('404.html'), 404
 
     image_path = os.path.join(folder_path, "students.csv")
 
     if file_exists(image_path):
+        print(4)
         return send_file(image_path, as_attachment=True, download_name= datetime.now().strftime("%Y%m%d%H%M%S") + '.csv')
     return "File not found."
 

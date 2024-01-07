@@ -11,9 +11,10 @@
     <img class="logo" src="../../img/logo-hutech.png"/>
     <h1 class="header_name">Thư Viện Ảnh</h1>
     <nav class="navbar">
-        <button class="btnExport">
+        <button id="export" class="btnExport">
             <img class="iconExport" src="../../img/export.png"/>
         </button>
+        <input class="hidden" id="folder" value="{{ folder }}" />
     </nav>
 </div>
 
@@ -24,8 +25,8 @@
                                                 src="{{ url_for('get_image', folder=folder, filename=image) }}"
                                                 alt="{{ image }}">
             <div class="img_info">
-                <p class="name_user">{{ image }}</p>
-<!--                <p class="id_user">2180607564</p>-->
+                <p class="name_user">{{ info[image.split('.')[0]] }}</p>
+                <p class="id_user">{{ image.split('.')[0] }}</p>
             </div>
         </div>
         {% endfor %}
