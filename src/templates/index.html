@@ -6,11 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap">
     <title>Attendance Student</title>
-    <link rel="stylesheet" href="/src/static/css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 
 <body>
-
+    <div id="background-loading">
+        <div class="loading">
+            <div id="container">
+                <div class="divider" aria-hidden="true"></div>
+                <p class="loading-text" aria-label="Loading">
+                    <span class="letter" aria-hidden="true">L</span>
+                    <span class="letter" aria-hidden="true">o</span>
+                    <span class="letter" aria-hidden="true">a</span>
+                    <span class="letter" aria-hidden="true">d</span>
+                    <span class="letter" aria-hidden="true">i</span>
+                    <span class="letter" aria-hidden="true">n</span>
+                    <span class="letter" aria-hidden="true">g</span>
+                </p>
+            </div>
+        </div>
+    </div>
     <div class="menu_bar">
         <div class="bars"></div>
     </div>
@@ -24,7 +39,7 @@
         </div>
         <div class="navbar" style="margin-bottom: 0px;">
             <h2><img alt="Logo Hutech" id="logo"
-                src="\img\logo-dai-hoc-hutech_012634748.png"></h2>
+                src="\img\logo-hutech.png"></h2>
                 <div class="close">
                     <div></div>
                 </div>
@@ -71,7 +86,7 @@
                             <button id="upload_button" type="button" class="btn hidden">Upload</button>
                         </div>
                         <div style="display: flex; justify-content: center; margin-bottom: 60px;">
-                            <a id="folder_open" class="btn hidden">
+                            <a id="folder_open" class="btn hidden" target="_blank">
                                 <span><svg style="width:3vh;" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -129,7 +144,7 @@
         </div>
     </nav>
 </body>
-<script src="/src/static/js/script.js"></script>
-<script src="/src/static/js/GSAP.js"></script>
+<script src="/static/js/script.js"></script>
+<script src="/static/js/GSAP.js"></script>
 
 </html>

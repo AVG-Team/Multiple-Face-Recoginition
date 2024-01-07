@@ -1,5 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/src/static/css/upload.css">
+<link rel="stylesheet" href="/static/css/upload.css">
     <div id="upload" class="modal" data-state="0" data-ready="false">
 	<div class="modal__header">
 	</div>
@@ -35,7 +35,7 @@
 				<p class="modal__message">Select a file to upload from your computer or device.</p>
 				<div class="modal__actions">
 					<button class="modal__button modal__button--upload" type="button" data-action="file">Choose File</button>
-					<input id="file" type="file" hidden>
+					<input class="btn" id="file" type="file" hidden>
 				</div>
 				<div class="modal__actions" hidden>
 					<svg class="modal__file-icon" viewBox="0 0 24 24" width="24px" height="24px" aria-hidden="true">
@@ -67,6 +67,7 @@
 							<div class="modal__progress-fill" data-progress-fill></div>
 						</div>
 					</div>
+					<a id="btn_open_link" class="modal__button" style="text-decoration: none;" type="button" target = "_blank">Open Link</a>
 					<button class="modal__button" type="button" data-action="cancel">Cancel</button>
 				</div>
 			</div>
@@ -74,7 +75,6 @@
 				<h2 class="modal__title">Oops!</h2>
 				<p class="modal__message">Your file could not be uploaded due to an error. Try uploading it again?</p>
 				<div class="modal__actions modal__actions--center">
-					<button class="modal__button" type="button" data-action="upload">Retry</button>
 					<button class="modal__button" type="button" data-action="cancel">Cancel</button>
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 				<p class="modal__message">Your file has been uploaded. You can copy the link to your clipboard.</p>
 				<div class="modal__actions modal__actions--center">
 					<button class="modal__button" type="button" data-action="copy">Copy Link</button>
-					<button id="btn_done" class="modal__button" type="button" data-action="cancel">Done</button>
+					<a id="btn_done" class="modal__button" type="button" data-action="cancel">Done</a>
 				</div>
 			</div>
 		</div>
@@ -91,4 +91,4 @@
 		  <img class="hidden" id="preview" alt="Image Preview">
 	</div>
 </div>
-<script src="/src/static/js/upload.js"></script>
+<script src="/static/js/upload.js"></script>

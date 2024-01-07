@@ -42,7 +42,7 @@ class UploadModal {
             this.isCopying = false;
             copyButton.removeAttribute("style");
             copyButton.disabled = false;
-            copyButton.textContent = "Copy Link";
+            copyButton.textContent = "Open Link";
         }
     }
     fail() {
@@ -95,18 +95,11 @@ class UploadModal {
 
         if (this.isUploading) {
             if (this.progress === 0) {
-                await new Promise(res => setTimeout(res, 1000));
-                // fail randomly
-                if (!this.isUploading) {
-                    return;
-                } else if (Utils.randomInt(0,2) === 0) {
-                    this.fail();
-                    return;
-                }
             }
             // …or continue with progress
             if (this.progress < 1) {
                 this.progress += 0.01;
+                await uploadImg(this.el?.querySelector("#file").files[0]);
                 this.progressTimeout = setTimeout(this.progressLoop.bind(this), 50);
             } else if (this.progress >= 1) {
                 this.progressTimeout = setTimeout(() => {
@@ -137,14 +130,6 @@ class UploadModal {
     }
 }
 
-class Utils {
-    static randomInt(min = 0,max = 2**32) {
-        const percent = crypto.getRandomValues(new Uint32Array(1))[0] / 2**32;
-        const relativeValue = (max - min) * percent;
-
-        return Math.round(min + relativeValue);
-    }
-}
 const close_btn = document.getElementById("close_button");
 const previewImage = document.getElementById('preview');
 close_btn.addEventListener("click", () => {
@@ -152,6 +137,70 @@ close_btn.addEventListener("click", () => {
     previewImage.classList.add("hidden");
     document.body.style.height = "100vh";
 });
+
+
+
+
+async function uploadImg(fileUpload)
+{
+            const file = fileUpload;
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+}
+
+const buttonOpenLink = document.getElementById("btn_open_link");
+buttonOpenLink.addEventListener('click', function(event) {
+  const fileInput = document.getElementById('file'); // Assuming 'file' is the ID of your file input
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const imageUrl = e.target.result;
+
+    // Create a Blob from the Data URL
+    const blob = new Blob([imageUrl], { type: 'image/png' });
+
+    // Create a URL for the Blob
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Create a new HTML page content with the image and a hyperlink
+    const newPageContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Image Preview</title>
+      </head>
+      <body>
+        <a href="${imageUrl}" target="_blank">
+          <img src="${imageUrl}" alt="Preview">
+        </a>
+      </body>
+      </html>
+    `;
+
+    const newPageBlob = new Blob([newPageContent], { type: 'text/html' });
+    const newPageUrl = URL.createObjectURL(newPageBlob);
+
+    window.open(newPageUrl, '_blank');
+  };
+
+  if (fileInput.files && fileInput.files[0]) {
+    reader.readAsDataURL(fileInput.files[0]);
+  }
+});
+
+
+
+
 document.getElementById('file').addEventListener('change', function(event) {
       const fileInput = event.target;
       preview.classList.remove("hidden");
@@ -162,7 +211,7 @@ document.getElementById('file').addEventListener('change', function(event) {
           previewImage.src = e.target.result;
         };
 
-        reader.readAsDataURL(fileInput.files[0]);
+       reader.readAsDataURL(fileInput.files[0]);
       }
       document.body.style.height = "200vh";
     });

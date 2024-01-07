@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     captureButton.addEventListener("click", () => {
-    //    content.style = "margin-top: 250px";
+        //    content.style = "margin-top: 250px";
 
         const canvas = document.createElement('canvas');
         canvas.width = cameraOutput.videoWidth;
@@ -105,14 +105,23 @@ document.addEventListener('DOMContentLoaded', function () {
         cameraOutput.srcObject = stream;
     })
 
+    function loadingShow() {
+        const loadingDiv = document.getElementById("background-loading");
+        loadingDiv.classList.add("showLoading")
+    }
+
+    function loadingHide() {
+        const loadingDiv = document.getElementById("background-loading");
+        loadingDiv.classList.add("hideLoading")
+    }
+
     upload.addEventListener("click", () => {
         if (capturedDataURL) {
+            loadingShow();
             const blob = dataURItoBlob(capturedDataURL);
 
             const formData = new FormData();
             formData.append('file', blob, 'captured_image.png');
-
-            console.log(formData, capturedDataURL, blob)
 
             fetch('/upload', {
                 method: 'POST',
@@ -120,6 +129,10 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then(response => response.json())
                 .then(data => {
+                    loadingHide();
+                    setTimeout(function () {
+                        document.getElementById("background-loading").classList.remove('showLoading');
+                    }, 2000);
                     if ('error' in data) {
                         alert("Error when uploading: " + data.error);
                         console.error('Error when uploading: ', data.error);
@@ -133,28 +146,29 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log(data)
                 })
                 .catch(error => {
+                    loadingHide();
                     alert("Error when uploading: " + error);
                     console.error('Error when uploading: ', error);
                 });
         }
     })
 
+
     function flipVideo() {
         cameraOutput.style.transform = cameraFront ? "scaleX(-1)" : "scaleX(1)";
     }
 
 
-
     var timerElement = document.querySelector('.timer');
 
     function updateTimer() {
-      var currentTime = new Date();
-      var hours = currentTime.getHours().toString().padStart(2, '0');
-      var minutes = currentTime.getMinutes().toString().padStart(2, '0');
-      var seconds = currentTime.getSeconds().toString().padStart(2, '0');
+        let currentTime = new Date();
+        let hours = currentTime.getHours().toString().padStart(2, '0');
+        let minutes = currentTime.getMinutes().toString().padStart(2, '0');
+        let seconds = currentTime.getSeconds().toString().padStart(2, '0');
 
-      var formattedTime = hours + ':' + minutes + ':' + seconds;
-      timerElement.textContent = formattedTime;
+        let formattedTime = hours + ':' + minutes + ':' + seconds;
+        timerElement.textContent = formattedTime;
     }
 
     // Update the timer every second
@@ -232,4 +246,6 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.classList.add("hidden")
         document.getElementById('upload_form').classList.remove("hidden")
     });
+
+
 });
