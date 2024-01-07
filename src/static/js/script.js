@@ -13,6 +13,7 @@ function handleIndicator(el) {
     el.classList.add('is-active');
 }
 
+
 function dataURItoBlob(dataURI) {
     const byteString = atob(dataURI.split(',')[1]);
     const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -58,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}});
 
             cameraOutput.srcObject = stream;
+            document.getElementById('time-camera').classList.remove("hidden");
             captureButton.classList.remove("hidden");
             captureArrow.classList.remove("hidden");
             flipVideo();
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     captureButton.addEventListener("click", () => {
-        content.style = "margin-bottom:200px";
+    //    content.style = "margin-top: 250px";
 
         const canvas = document.createElement('canvas');
         canvas.width = cameraOutput.videoWidth;
@@ -137,7 +139,130 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
+
+
     function flipVideo() {
         cameraOutput.style.transform = cameraFront ? "scaleX(-1)" : "scaleX(1)";
     }
+
+
+
+    var timerElement = document.querySelector('.timer');
+
+    function updateTimer() {
+      var currentTime = new Date();
+      var hours = currentTime.getHours().toString().padStart(2, '0');
+      var minutes = currentTime.getMinutes().toString().padStart(2, '0');
+      var seconds = currentTime.getSeconds().toString().padStart(2, '0');
+
+      var formattedTime = hours + ':' + minutes + ':' + seconds;
+      timerElement.textContent = formattedTime;
+    }
+
+    // Update the timer every second
+    setInterval(updateTimer, 1000);
+
+    // Optionally, you can call updateTimer once to set the initial value
+    updateTimer();
+
+
+    document.getElementById('link_camera').addEventListener('click', function() {
+    document.getElementById('camera_tab').classList.remove('hidden');
+    document.getElementById('upload_tab').classList.add('hidden');
+    });
+
+    document.getElementById('link_upload').addEventListener('click', function() {
+    document.getElementById('upload_tab').classList.remove('hidden');
+    document.getElementById('camera_tab').classList.add('hidden');
+    });
+
+    const open = document.querySelector('.container');
+		const close = document.querySelector('.close');
+		var tl = gsap.timeline({ defaults: { duration: 1, ease: 'expo.inOut' } });
+		open.addEventListener('click', () => {
+			if (tl.reversed()) {
+				tl.play();
+			} else {
+				tl.to('.nav_animation', { right: 0 })
+					.to('.nav_animation', { height: '120vh' }, '-=.1')
+					.to('.nav_animation ul li a', { opacity: 1, pointerEvents: 'all', stagger: .2 }, '-=.8')
+					.to('.close', { opacity: 1, pointerEvents: 'all' }, "-=.8")
+					.to('.nav_animation h2', { opacity: 1 }, '-=1');
+			}
+		});
+
+		close.addEventListener('click', () => {
+			tl.reverse();
+            document.getElementById('camera_output').classList.add('hidden');
+		});
+
+        const typewriter = document.getElementById('typewriter');
+        const text = "Hệ thống điểm danh Hutech"
+        let index = 0;
+        function type() {
+        if (index < text.length) {
+            typewriter.innerHTML = text.slice(0, index) + '<span class="blinking-cursor">|</span>';
+            index++;
+            setTimeout(type, Math.random() * 150 + 50);
+            } else {
+            typewriter.innerHTML = text.slice(0, index) + '<span class="blinking-cursor">|</span>';
+            }
+        }
+        // start typing
+        type();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var ulElement = document.querySelector('.nav_animation ul');
+            var divToToggle = document.querySelector('.nav_animation div[style="margin-bottom: 0px;"]');
+            var lastScrollPosition = 0;
+
+            ulElement.addEventListener('scroll', function () {
+              var currentScrollPosition = ulElement.scrollTop;
+
+              if (currentScrollPosition > lastScrollPosition) {
+                // Scrolling down
+                divToToggle.classList.add('hidden');
+              } else {
+                // Scrolling up
+                divToToggle.classList.remove('hidden');
+              }
+
+              lastScrollPosition = currentScrollPosition;
+            });
+          });
+
+          var overlay = document.getElementById('overlay');
+
+          function handleMouseWheel(event) {
+              var delta = event.deltaY || event.detail || event.wheelDelta;
+
+              if (delta > 0) {
+                  // Scroll down
+                  overlay.style.display = 'block';
+              } else {
+                  // Scroll up
+                  overlay.style.display = 'none';
+              }
+          }
+
+          if (document.addEventListener) {
+              // For modern browsers
+              document.addEventListener('wheel', handleMouseWheel);
+          } else {
+              // For older browsers
+              document.attachEvent('onmousewheel', handleMouseWheel);
+          }
+          var navAnimation = document.getElementById('nav_animation');
+          var contents = document.getElementById('content');
+
+          navAnimation.addEventListener('scroll', function () {
+              contents.scrollLeft = navAnimation.scrollLeft;
+              contents.scrollTop = navAnimation.scrollTop;
+          });
+
+          content.addEventListener('scroll', function () {
+              navAnimation.scrollLeft = contents.scrollLeft;
+              navAnimation.scrollTop = contents.scrollTop;
+          });
+
 });
