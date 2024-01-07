@@ -1,4 +1,7 @@
 import cv2
+import firebase_admin
+from firebase_admin import credentials
+
 from module import recognition_face
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
@@ -58,7 +61,6 @@ def page_not_found(e):
 @app.errorhandler(400)
 def bad_request(e):
     return render_template('400.html'), 400
-
 
 @app.route('/attendances')
 def attendances():

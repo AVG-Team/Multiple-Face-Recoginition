@@ -7,18 +7,32 @@
     <title>Attendance</title>
 </head>
 <body>
-     <header>
-<h1>Photo Gallery - {{ folder }}</h1>
-  </header>
+<div class="header_item">
+    <img class="logo" src="../../img/logo-hutech.png"/>
+    <h1 class="header_name">Thư Viện Ảnh</h1>
+    <nav class="navbar">
+        <button class="btnExport">
+            <img class="iconExport" src="../../img/export.png"/>
+        </button>
+    </nav>
+</div>
 
-  <main>
+<div class="content">
     <div id="gallery">
         {% for image in images %}
-                <div class="img-item gallery-item"><img class="gallery-image" src="{{ url_for('get_image', folder=folder, filename=image) }}" alt="{{ image }}"><p>{{ image }}</p></div>
+        <div class="img-item gallery-item"><img class="gallery-image"
+                                                src="{{ url_for('get_image', folder=folder, filename=image) }}"
+                                                alt="{{ image }}">
+            <div class="img_info">
+                <p class="name_user">{{ image }}</p>
+<!--                <p class="id_user">2180607564</p>-->
+            </div>
+        </div>
         {% endfor %}
     </div>
-  </main>
+</div>
 
 <script src="/static/js/attendance.js" defer></script>
 </body>
 </html>
+

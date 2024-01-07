@@ -34,3 +34,4 @@ items.forEach((item, i) => {
 
   item.animate(keyframes, options);
 });
+

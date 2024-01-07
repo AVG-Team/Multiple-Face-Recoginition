@@ -1,35 +1,141 @@
-h1 {
-  text-align: center;
+.header_name {
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    text-shadow: skyblue 0 0 20px;
 }
 
+/*navbarbar*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    backdrop-filter: blur(10px);
+    background-size: cover;
+    background: url("/img/hutech.jpg") no-repeat center;
+    overflow: hidden;
+}
+
+.header_item {
+    display: inline-grid;
+    height: 100vh;
+    border-right: solid 1px #eff6ec;
+    box-shadow: #eff6ec 0 0 10px;
+}
+
+.logo {
+    width: auto;
+    height: 65px;
+}
+
+.navbar a {
+    position: relative;
+    font-size: 1.1em;
+    color: #000000;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+    align-items: center;
+}
+
+.navbar a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+.navbar a:hover::after {
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+.navbar .btnExport{
+    width: 130px;
+    height: 50px;
+    background: dodgerblue;
+    border: 2px solid dodgerblue;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #ffffff;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: .5s;
+    bottom: 5px;
+    position: absolute;
+}
+
+.navbar .btnExport:hover {
+    background: cyan;
+    color: #fff;
+    border: cyan 2px solid;
+}
+.navbar .btnExport .iconExport{
+    width: 32px;
+    height: 32px;
+    color: #eff6ec;
+}
+.content {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+}
 #gallery {
-  display: grid;
-  max-width: 1000px;
-  margin: auto;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
+    z-index: 10;
+    display: grid;
+    max-width: 80vw;
+    margin: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
 }
 
 .img-item {
-  opacity: 0;
-  filter: blur(10px);
-  width: 100%;
+    /*opacity: 0;*/
+    /*filter: blur(10px);*/
+    width: 90%;
+    height: auto;
 }
 
 .img-item img {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
-
-.img-item p {
-  text-align: center;
+.img-item .name_user{
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.img-item .img_info{
+    text-align: center;
+    height: 100%;
+    color: #fafafa;
+    background: rgb(124, 124, 124);
 }
 
 footer {
-  text-align: center;
-  color: #EEE;
+    text-align: center;
+    color: #EEE;
 }
-
 
 .gallery {
     display: flex;
@@ -60,4 +166,8 @@ footer {
 
 .gallery-image:hover {
     transform: scale(1.15);
+}
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent; /* make scrollbar transparent */
 }

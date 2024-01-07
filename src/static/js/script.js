@@ -212,8 +212,8 @@ document.addEventListener('DOMContentLoaded', function () {
     type();
 
     document.addEventListener('DOMContentLoaded', function () {
-        const ulElement = document.querySelector('.nav_animation ul');
-        const divToToggle = document.querySelector('.nav_animation div[style="margin-bottom: 0px;"]');
+        const ulElement = document.querySelector('.img-item .gallery-item');
+        const divToToggle = document.querySelector('body');
         let lastScrollPosition = 0;
 
         ulElement.addEventListener('scroll', function () {
