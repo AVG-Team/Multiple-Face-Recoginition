@@ -482,4 +482,31 @@ h1 {
     filter: blur(8px);
     -webkit-filter: blur(8px);
   }
+  /* Responsive styles for the iframe */
+#upload_form {
+    width: 600px;
+    height: 400px;
+    max-width: 100%; /* Adjust as needed */
+    max-height: 100%; /* Adjust as needed */
+}
+
+/* You can also use media queries for specific screen sizes */
+@media (max-width: 767px) {
+    #upload_form {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    #camera_output {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .camera-ui time{
+        max-width: 100%;
+        max-height: 100%;
+    }
+    #captured_image{
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
 

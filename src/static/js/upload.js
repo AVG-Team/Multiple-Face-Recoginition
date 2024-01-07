@@ -150,6 +150,7 @@ const previewImage = document.getElementById('preview');
 close_btn.addEventListener("click", () => {
     previewImage.src = null;
     previewImage.classList.add("hidden");
+    document.body.style.height = "100vh";
 });
 document.getElementById('file').addEventListener('change', function(event) {
       const fileInput = event.target;
@@ -163,5 +164,5 @@ document.getElementById('file').addEventListener('change', function(event) {
 
         reader.readAsDataURL(fileInput.files[0]);
       }
-
+      document.body.style.height = "200vh";
     });
