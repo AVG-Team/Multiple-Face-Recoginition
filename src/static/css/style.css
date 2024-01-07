@@ -33,8 +33,8 @@ body {
 .nav {
     display: flex;
     justify-content: space-around;
-    background-color: #1d1a1d;
-    border: 1px solid #252325;
+    background-color: white;
+    border: 1px solid white;
     border-radius: 30px;
     overflow: hidden;
     width: 90%;
@@ -51,7 +51,7 @@ body {
     width: 50px;
     margin: 0 5px;
     padding: 20px;
-    color: rgba(255, 255, 255, 0.2);
+    color: gray;
     text-decoration: none;
     transition: .3s;
 }
@@ -230,7 +230,7 @@ h1 {
 	position: fixed;
 	width: 100%;
 	height: 30px;
-	background: white;
+	background: #ffff;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -302,7 +302,7 @@ h1 {
 	position: absolute;
 	width: 30px;
 	height: 4px;
-	background: #fff;
+	background: gray;
 	transition: background .5s ease;
 }
 .nav_animation .close div::before{
@@ -474,7 +474,7 @@ h1 {
     margin-bottom: 00px;
   }
   .background{
-    background-image: url("../../img/hutech.jpg");
+    background-image: url("http://localhost:63342/Multiple-Face-Recoginition/img/hutechbg.png");
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -482,3 +482,4 @@ h1 {
     filter: blur(8px);
     -webkit-filter: blur(8px);
   }
+

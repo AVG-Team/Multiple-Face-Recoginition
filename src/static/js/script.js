@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const folder = document.getElementById('folder_open');
     const body = document.getElementsByTagName('body');
     const content = document.querySelector(".content");
-
+    const uploadFileButton = document.getElementById('upload_file_button');
     let capturedDataURL = '';
 
     openCameraButton.addEventListener('click', async () => {
@@ -139,8 +139,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
-
-
     function flipVideo() {
         cameraOutput.style.transform = cameraFront ? "scaleX(-1)" : "scaleX(1)";
     }
@@ -165,16 +163,31 @@ document.addEventListener('DOMContentLoaded', function () {
     // Optionally, you can call updateTimer once to set the initial value
     updateTimer();
 
+    let cameraStream;
 
-    document.getElementById('link_camera').addEventListener('click', function() {
-    document.getElementById('camera_tab').classList.remove('hidden');
-    document.getElementById('upload_tab').classList.add('hidden');
+    document.getElementById('link_camera').addEventListener('click', function () {
+        reload();
+        document.getElementById('camera_tab').classList.remove('hidden');
+        document.getElementById('upload_tab').classList.add('hidden');
     });
 
-    document.getElementById('link_upload').addEventListener('click', function() {
-    document.getElementById('upload_tab').classList.remove('hidden');
-    document.getElementById('camera_tab').classList.add('hidden');
+    document.getElementById('link_upload').addEventListener('click', function () {
+        document.getElementById('upload_tab').classList.remove('hidden');
+        document.getElementById('camera_tab').classList.add('hidden');
+        cameraOutput.srcObject = null;
+        cameraStream = null;
     });
+
+    function reload(){
+        document.getElementById('camera_output').classList.add('hidden');
+        document.getElementById('captured_image').classList.add('hidden');
+        capturedImage.src = null;
+        document.getElementById('capture_button').classList.add('hidden');
+        document.getElementById('capture_arrow').classList.add('hidden');
+        document.getElementById('time-camera').classList.add('hidden');
+        document.getElementById('upload_button').classList.add('hidden');
+        document.getElementById('open_camera').classList.remove('hidden');
+    }
 
     const open = document.querySelector('.container');
 		const close = document.querySelector('.close');
@@ -193,7 +206,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		close.addEventListener('click', () => {
 			tl.reverse();
-            document.getElementById('camera_output').classList.add('hidden');
+            reload();
+            cameraOutput.srcObject.getTracks().forEach(track => track.stop());
 		});
 
         const typewriter = document.getElementById('typewriter');
@@ -211,58 +225,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // start typing
         type();
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var ulElement = document.querySelector('.nav_animation ul');
-            var divToToggle = document.querySelector('.nav_animation div[style="margin-bottom: 0px;"]');
-            var lastScrollPosition = 0;
 
-            ulElement.addEventListener('scroll', function () {
-              var currentScrollPosition = ulElement.scrollTop;
+//tab upload
 
-              if (currentScrollPosition > lastScrollPosition) {
-                // Scrolling down
-                divToToggle.classList.add('hidden');
-              } else {
-                // Scrolling up
-                divToToggle.classList.remove('hidden');
-              }
-
-              lastScrollPosition = currentScrollPosition;
-            });
-          });
-
-          var overlay = document.getElementById('overlay');
-
-          function handleMouseWheel(event) {
-              var delta = event.deltaY || event.detail || event.wheelDelta;
-
-              if (delta > 0) {
-                  // Scroll down
-                  overlay.style.display = 'block';
-              } else {
-                  // Scroll up
-                  overlay.style.display = 'none';
-              }
-          }
-
-          if (document.addEventListener) {
-              // For modern browsers
-              document.addEventListener('wheel', handleMouseWheel);
-          } else {
-              // For older browsers
-              document.attachEvent('onmousewheel', handleMouseWheel);
-          }
-          var navAnimation = document.getElementById('nav_animation');
-          var contents = document.getElementById('content');
-
-          navAnimation.addEventListener('scroll', function () {
-              contents.scrollLeft = navAnimation.scrollLeft;
-              contents.scrollTop = navAnimation.scrollTop;
-          });
-
-          content.addEventListener('scroll', function () {
-              navAnimation.scrollLeft = contents.scrollLeft;
-              navAnimation.scrollTop = contents.scrollTop;
-          });
-
+    uploadFileButton.addEventListener("click", (e) => {
+        e.target.classList.add("hidden")
+        document.getElementById('upload_form').classList.remove("hidden")
+    });
 });
