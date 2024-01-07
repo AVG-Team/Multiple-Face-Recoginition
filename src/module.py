@@ -1,4 +1,5 @@
 import os
+import re
 import pickle
 import numpy as np
 import cv2
@@ -29,15 +30,26 @@ def resize_image(image, target_width):
     return cv2.resize(image, (int(width * scale_factor), int(height * scale_factor)))
 
 
+def getStudentId(imageName):
+    match = re.search(r'(\d+)', imageName)
+
+    if match:
+        number = match.group(1)
+        return number
+    else:
+        return
+
+
 # endregion
 def recognition_face(input, timestamp):
+    studentIdTmp = 0
     outputFolder = '../Attendance/' + timestamp + '/'
 
     # print(len(imgModeList))
 
     # Load the encoding file
     print("Loading Encode File ...")
-    file = open('data preprocessing/EncodeFile.p', 'rb')
+    file = open('data preprocessing/t1_EncodeFile.p', 'rb')
     encodeListKnownWithIds = pickle.load(file)
     file.close()
     encodeListKnown, studentIds = encodeListKnownWithIds
@@ -60,7 +72,7 @@ def recognition_face(input, timestamp):
     faceCurFrame = face_recognition.face_locations(imgS, number_of_times_to_upsample=2, model="cnn")
 
     print("start encode")
-    encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame)
+    encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame, num_jitters=100)
 
     print("check")
 
@@ -75,9 +87,8 @@ def recognition_face(input, timestamp):
             if matches[matchIndex]:
                 print("Known Face Detected")
                 imageName = studentIds[matchIndex]
-                print(imageName)
-                studentInfo = db.reference(f'Students/{imageName}').get()
-                print(studentInfo)
+                studentIdTmp = getStudentId(imageName)
+                studentInfo = db.reference(f'Students/{studentIdTmp}').get()
                 y1, x2, y2, x1 = faceLoc
                 if counter == 0:
                     counter = 1
@@ -85,10 +96,10 @@ def recognition_face(input, timestamp):
             if counter != 0:
                 if counter == 1:
                     # Get the Data
-                    studentInfo = db.reference(f'Students/{imageName}').get()
-                    print(studentInfo, imageName)
+                    studentInfo = db.reference(f'Students/{studentIdTmp}').get()
+                    print(studentInfo)
                     # Get the Image from the storage
-                    blob = bucket.get_blob(f'Images/{imageName}/{imageName}.png')
+                    blob = bucket.get_blob(f'Images/{studentIdTmp}/{imageName}')
                     array = np.frombuffer(blob.download_as_string(), np.uint8)
                     imgStudent = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
                     # Update data of attendance
@@ -96,7 +107,7 @@ def recognition_face(input, timestamp):
                     secondsElapsed = (datetime.now() - datetimeObject).total_seconds()
                     print(secondsElapsed)
                     if secondsElapsed > 30:
-                        ref = db.reference(f'Students/{imageName}')
+                        ref = db.reference(f'Students/{studentIdTmp}')
                         studentInfo['total_attendance'] += 1
                         ref.child('total_attendance').set(studentInfo['total_attendance'])
                         ref.child('last_attendance_time').set(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -123,7 +134,6 @@ def recognition_face(input, timestamp):
                         cv2.imwrite(outputFolder + str(studentInfo['id']) + '.png', imgStudent)
 
                         listStudentInfo.append(studentInfo)
-                        print(listStudentInfo)
                         # reset step
                         counter = 0
                     if counter >= 20:
@@ -151,5 +161,4 @@ def recognition_face(input, timestamp):
             for student in listStudentInfo:
                 writer.writerow(student)
     return listStudentInfo
-
 
