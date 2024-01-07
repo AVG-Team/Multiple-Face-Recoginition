@@ -125,4 +125,3 @@ def recognition_face(input):
     return listStudentInfo
 
 
-recognition_face("../Test/12.jpg")

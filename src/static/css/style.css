@@ -474,7 +474,7 @@ h1 {
     margin-bottom: 00px;
   }
   .background{
-    background-image: url("../../img/hutech.jpg");
+    background-image: url("/img/hutech.jpg");
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;

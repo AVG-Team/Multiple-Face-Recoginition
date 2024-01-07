@@ -93,6 +93,11 @@ def get_image(folder, filename):
     folder_path = os.path.join('../Attendance', folder)
     return send_from_directory(folder_path, filename)
 
+@app.route('/img/<filename>')
+def get_img(filename):
+    folder_path = os.path.join('../img')
+    return send_from_directory(folder_path, filename)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
