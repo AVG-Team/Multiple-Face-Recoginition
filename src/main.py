@@ -114,25 +114,20 @@ def file_exists(file_path):
 @app.route("/attendance/export", methods=['POST'])
 def export_attendance():
     if request.method != 'POST':
-        print(1)
         return render_template('400.html'), 400
 
     folder_name = request.form.get('q', '')
-    print(folder_name)
     if not re.match("^[a-zA-Z0-9_-]+$", folder_name):
-        print(2)
         return render_template('400.html'), 400
 
     folder_path = os.path.join('../Attendance', folder_name)
 
     if not os.path.exists(folder_path):
-        print(3)
         return render_template('404.html'), 404
 
     image_path = os.path.join(folder_path, "students.csv")
 
     if file_exists(image_path):
-        print(4)
         return send_file(image_path, as_attachment=True, download_name= datetime.now().strftime("%Y%m%d%H%M%S") + '.csv')
     return "File not found."
 
