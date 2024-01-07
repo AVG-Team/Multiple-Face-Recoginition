@@ -1,5 +1,10 @@
+import csv
+
 import cv2
 from firebase_admin import db
+
+import firebase_admin
+from firebase_admin import credentials
 
 from module import recognition_face
 from flask import Flask, render_template, request, jsonify, send_from_directory, send_file
@@ -78,6 +83,7 @@ def attendances():
         return render_template('404.html'), 404
 
     image_list = []
+    info_list = {}
 
     for filename in os.listdir(folder_path):
         if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -89,9 +95,17 @@ def attendances():
                 image_list.append(filename)
             except Exception as e:
                 print(f"Tệp {filename} bị lỗi: {str(e)}")
+    csv_file_path =folder_path + "/students.csv"
+    # Mở file CSV
+    with open(csv_file_path, 'r', newline='') as file:
+        # Đọc dữ liệu từ file CSV
+        csv_reader = csv.DictReader(file)
+        # Lặp qua từng dòng và hiển thị thông tin
+        for row in csv_reader:
+            info_list[row['id']] = row['name']
 
-    return render_template('attendances.html', images=image_list, folder=folder_name)
-
+        print(info_list,info_list['2180607368'])
+    return render_template('attendances.html', images=image_list, folder=folder_name, info=info_list)
 
 def file_exists(file_path):
     return os.path.exists(file_path) and os.path.isfile(file_path)
@@ -102,8 +116,7 @@ def export_attendance():
     if request.method != 'POST':
         return render_template('400.html'), 400
 
-    folder_name = request.args.get('q', '')
-
+    folder_name = request.form.get('q', '')
     if not re.match("^[a-zA-Z0-9_-]+$", folder_name):
         return render_template('400.html'), 400
 
