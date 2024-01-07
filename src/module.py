@@ -9,6 +9,7 @@ from firebase_admin import storage
 from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials
+import csv
 
 # region Init Firebase
 cred = credentials.Certificate("../serviceAccountKey.json")
@@ -29,7 +30,9 @@ def resize_image(image, target_width):
 
 
 # endregion
-def recognition_face(input):
+def recognition_face(input, timestamp):
+    outputFolder = '../Attendance/' + timestamp + '/'
+
     # print(len(imgModeList))
 
     # Load the encoding file
@@ -97,6 +100,17 @@ def recognition_face(input):
                         studentInfo['total_attendance'] += 1
                         ref.child('total_attendance').set(studentInfo['total_attendance'])
                         ref.child('last_attendance_time').set(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+                        if 'attendances_time' in studentInfo:
+                            attendances_time = studentInfo['attendances_time']
+                        else:
+                            attendances_time = []
+
+                        if len(attendances_time) == 7:
+                            attendances_time[6] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        else:
+                            attendances_time.append(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                        ref.update({'attendances_time': attendances_time})
                     else:
                         counter = 0
                 if modeType != 3:
@@ -105,7 +119,6 @@ def recognition_face(input):
                     counter += 1
                     if counter <= 10:
                         # Create a photo when taking attendance
-                        outputFolder = '../Attendance/' + datetime.now().strftime("%Y%m%d%H%M") + '/'
                         os.makedirs(outputFolder, exist_ok=True)
                         cv2.imwrite(outputFolder + str(studentInfo['id']) + '.png', imgStudent)
 
@@ -122,6 +135,21 @@ def recognition_face(input):
         print("1123")
         modeType = 0
         counter = 0
+
+    if len(listStudentInfo) >= 1:
+        csv_file_path = "students.csv"
+        filenameCsv = os.path.join(outputFolder, csv_file_path)
+        with open(filenameCsv, mode='w', newline='') as file:
+            fieldnames = ["id", "last_attendance_time", "major", "name", "standing", "starting_year",
+                          "total_attendance", "attendances_time", "year"]
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+            # Viết header
+            writer.writeheader()
+
+            # Viết dữ liệu
+            for student in listStudentInfo:
+                writer.writerow(student)
     return listStudentInfo
 
 
