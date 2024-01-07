@@ -105,14 +105,23 @@ document.addEventListener('DOMContentLoaded', function () {
         cameraOutput.srcObject = stream;
     })
 
+    function loadingShow() {
+        const loadingDiv = document.getElementById("background-loading");
+        loadingDiv.classList.add("showLoading")
+    }
+
+    function loadingHide() {
+        const loadingDiv = document.getElementById("background-loading");
+        loadingDiv.classList.add("hideLoading")
+    }
+
     upload.addEventListener("click", () => {
         if (capturedDataURL) {
+            loadingShow();
             const blob = dataURItoBlob(capturedDataURL);
 
             const formData = new FormData();
             formData.append('file', blob, 'captured_image.png');
-
-            console.log(formData, capturedDataURL, blob)
 
             fetch('/upload', {
                 method: 'POST',
@@ -120,6 +129,10 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then(response => response.json())
                 .then(data => {
+                    loadingHide();
+                    setTimeout(function () {
+                        document.getElementById("background-loading").classList.remove('showLoading');
+                    }, 2000);
                     if ('error' in data) {
                         alert("Error when uploading: " + data.error);
                         console.error('Error when uploading: ', data.error);
@@ -133,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log(data)
                 })
                 .catch(error => {
+                    loadingHide();
                     alert("Error when uploading: " + error);
                     console.error('Error when uploading: ', error);
                 });
