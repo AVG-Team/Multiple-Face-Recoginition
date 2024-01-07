@@ -59,6 +59,7 @@ def page_not_found(e):
 def bad_request(e):
     return render_template('400.html'), 400
 
+
 @app.route('/attendances')
 def attendances():
     folder_name = request.args.get('q', '')
@@ -85,6 +86,7 @@ def attendances():
                 print(f"Tệp {filename} bị lỗi: {str(e)}")
 
     return render_template('attendances.html', images=image_list, folder=folder_name)
+
 
 @app.route('/image/<folder>/<filename>')
 def get_image(folder, filename):

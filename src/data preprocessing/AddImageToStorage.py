@@ -11,9 +11,9 @@ firebase_admin.initialize_app(cred, {
     'storageBucket': "face-recoginiton.appspot.com"
 })
 
-folderPath = "../../Images/processed"
+folderPath = "../../Images/three_year"
 
-folderUpload = "Images"
+folderUpload = "three_year_upload"
 pathList = os.listdir(folderPath)
 print(pathList)
 imgList = []

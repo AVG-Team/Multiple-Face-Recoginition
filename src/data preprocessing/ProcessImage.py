@@ -1,3 +1,4 @@
+import cv2
 import os
 import dlib
 from PIL import Image
@@ -36,11 +37,29 @@ def crop_face(input_path, output_path):
                         os.makedirs(output_folder_path, exist_ok=True)
 
                         # Lưu ảnh đã cắt ra thư mục đầu ra
-                        if os.path.splitext(filename)[1].lower() == ".jpg" or os.path.splitext(filename)[1].lower() == '.jpeg':
-                            output_image_path_tmp = os.path.join(output_folder_path, f"{os.path.splitext(filename)[0]}.png")
+                        if os.path.splitext(filename)[1].lower() == ".jpg" or os.path.splitext(filename)[
+                            1].lower() == '.jpeg':
+                            output_image_path_tmp = os.path.join(output_folder_path,
+                                                                 f"{os.path.splitext(filename)[0]}.png")
                         else:
                             output_image_path_tmp = os.path.join(output_folder_path, f"{filename}")
 
+                        flipped_horizontal = cropped_image.transpose(Image.FLIP_LEFT_RIGHT)
+                        flipped_vertical = cropped_image.transpose(Image.FLIP_TOP_BOTTOM)
+                        flipped_left = cv2.flip(Image, 1)
+                        flipped_right = cv2.flip(Image, 0)
+                        imgGray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+                        flipped_horizontal.save(
+                            os.path.join(output_folder_path, f"{os.path.splitext(filename)[0]}_1.png"))
+                        flipped_vertical.save(
+                            os.path.join(output_folder_path, f"{os.path.splitext(filename)[0]}_2.png"))
+                        flipped_left.save(
+                            os.path.join(output_folder_path, f"{os.path.splitext(filename)[0]}_3.png"))
+                        flipped_right.save(
+                            os.path.join(output_folder_path, f"{os.path.splitext(filename)[0]}_4.png"))
+                        imgGray.save(
+                            os.path.join(output_folder_path, f"{os.path.splitext(filename)[0]}_5.png"))
                         cropped_image.save(output_image_path_tmp)
 
                         print(f"Đã cắt ảnh {filename} thành công")

@@ -34,7 +34,7 @@ def recognition_face(input):
 
     # Load the encoding file
     print("Loading Encode File ...")
-    file = open('data preprocessing/t_EncodeFile.p', 'rb')
+    file = open('data preprocessing/EncodeFile.p', 'rb')
     encodeListKnownWithIds = pickle.load(file)
     file.close()
     encodeListKnown, studentIds = encodeListKnownWithIds
@@ -50,13 +50,14 @@ def recognition_face(input):
     img = cv2.imread(input)
 
     imgS = cv2.resize(img, (0, 0), None, 1, 1)
+    imgS = resize_image(imgS, 500)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
     print("start")
     faceCurFrame = face_recognition.face_locations(imgS, number_of_times_to_upsample=2, model="cnn")
 
     print("start encode")
-    encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame, num_jitters=100)
+    encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame)
 
     print("check")
 
@@ -67,6 +68,7 @@ def recognition_face(input):
             matches = face_recognition.compare_faces(encodeListKnown, encodeFace, tolerance=0.5)
             faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
             matchIndex = np.argmin(faceDis)
+            print("test")
             if matches[matchIndex]:
                 print("Known Face Detected")
                 imageName = studentIds[matchIndex]
@@ -108,6 +110,7 @@ def recognition_face(input):
                         cv2.imwrite(outputFolder + str(studentInfo['id']) + '.png', imgStudent)
 
                         listStudentInfo.append(studentInfo)
+                        print(listStudentInfo)
                         # reset step
                         counter = 0
                     if counter >= 20:
@@ -122,4 +125,4 @@ def recognition_face(input):
     return listStudentInfo
 
 
-recognition_face("../Test/threre.jpg")
+recognition_face("../Test/12.jpg")
