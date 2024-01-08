@@ -30,6 +30,11 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/upload.html')
+def uploadIframe():
+    return render_template("upload.html")
+
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:

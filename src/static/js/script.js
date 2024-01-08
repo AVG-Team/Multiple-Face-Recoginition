@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const folder = document.getElementById('folder_open');
     const body = document.getElementsByTagName('body');
     const content = document.querySelector(".content");
-
+    const uploadFileButton = document.getElementById('upload_file_button');
     let capturedDataURL = '';
 
     openCameraButton.addEventListener('click', async () => {
@@ -177,8 +177,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Optionally, you can call updateTimer once to set the initial value
     updateTimer();
 
+    let cameraStream;
 
     document.getElementById('link_camera').addEventListener('click', function () {
+        reload();
         document.getElementById('camera_tab').classList.remove('hidden');
         document.getElementById('upload_tab').classList.add('hidden');
     });
@@ -186,62 +188,64 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('link_upload').addEventListener('click', function () {
         document.getElementById('upload_tab').classList.remove('hidden');
         document.getElementById('camera_tab').classList.add('hidden');
+        cameraOutput.srcObject = null;
+        cameraStream = null;
     });
+
+    function reload(){
+        document.getElementById('camera_output').classList.add('hidden');
+        document.getElementById('captured_image').classList.add('hidden');
+        capturedImage.src = null;
+        document.getElementById('capture_button').classList.add('hidden');
+        document.getElementById('capture_arrow').classList.add('hidden');
+        document.getElementById('time-camera').classList.add('hidden');
+        document.getElementById('upload_button').classList.add('hidden');
+        document.getElementById('open_camera').classList.remove('hidden');
+    }
 
     const open = document.querySelector('.container');
-    const close = document.querySelector('.close');
-    let tl = gsap.timeline({defaults: {duration: 1, ease: 'expo.inOut'}});
-    open.addEventListener('click', () => {
-        if (tl.reversed()) {
-            tl.play();
-        } else {
-            tl.to('.nav_animation', {right: 0})
-                .to('.nav_animation', {height: '120vh'}, '-=.1')
-                .to('.nav_animation ul li a', {opacity: 1, pointerEvents: 'all', stagger: .2}, '-=.8')
-                .to('.close', {opacity: 1, pointerEvents: 'all'}, "-=.8")
-                .to('.nav_animation h2', {opacity: 1}, '-=1');
-        }
-    });
+		const close = document.querySelector('.close');
+		var tl = gsap.timeline({ defaults: { duration: 1, ease: 'expo.inOut' } });
+		open.addEventListener('click', () => {
+			if (tl.reversed()) {
+				tl.play();
+			} else {
+				tl.to('.nav_animation', { right: 0 })
+					.to('.nav_animation', { height: '120vh' }, '-=.1')
+					.to('.nav_animation ul li a', { opacity: 1, pointerEvents: 'all', stagger: .2 }, '-=.8')
+					.to('.close', { opacity: 1, pointerEvents: 'all' }, "-=.8")
+					.to('.nav_animation h2', { opacity: 1 }, '-=1');
+			}
+		});
 
-    close.addEventListener('click', () => {
-        tl.reverse();
-        document.getElementById('camera_output').classList.add('hidden');
-    });
+		close.addEventListener('click', () => {
+			tl.reverse();
+            reload();
+            cameraOutput.srcObject.getTracks().forEach(track => track.stop());
+		});
 
-    const typewriter = document.getElementById('typewriter');
-    const text = "Hệ thống điểm danh Hutech"
-    let index = 0;
-
-    function type() {
+        const typewriter = document.getElementById('typewriter');
+        const text = "Hệ thống điểm danh Hutech"
+        let index = 0;
+        function type() {
         if (index < text.length) {
             typewriter.innerHTML = text.slice(0, index) + '<span class="blinking-cursor">|</span>';
             index++;
             setTimeout(type, Math.random() * 150 + 50);
-        } else {
-            typewriter.innerHTML = text.slice(0, index) + '<span class="blinking-cursor">|</span>';
-        }
-    }
-
-    // start typing
-    type();
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const ulElement = document.querySelector('.img-item .gallery-item');
-        const divToToggle = document.querySelector('body');
-        let lastScrollPosition = 0;
-
-        ulElement.addEventListener('scroll', function () {
-            const currentScrollPosition = ulElement.scrollTop;
-
-            if (currentScrollPosition > lastScrollPosition) {
-                // Scrolling down
-                divToToggle.classList.add('hidden');
             } else {
-                // Scrolling up
-                divToToggle.classList.remove('hidden');
+            typewriter.innerHTML = text.slice(0, index) + '<span class="blinking-cursor">|</span>';
             }
+        }
+        // start typing
+        type();
 
-            lastScrollPosition = currentScrollPosition;
-        });
+
+//tab upload
+
+    uploadFileButton.addEventListener("click", (e) => {
+        e.target.classList.add("hidden")
+        document.getElementById('upload_form').classList.remove("hidden")
     });
+
+
 });
