@@ -1,17 +1,13 @@
 import csv
+import os
+import re
+from datetime import datetime
+import math
 
-import cv2
-from firebase_admin import db
-
-import firebase_admin
-from firebase_admin import credentials
+from PIL import Image
+from flask import Flask, render_template, request, jsonify, send_from_directory, send_file
 
 from module import recognition_face
-from flask import Flask, render_template, request, jsonify, send_from_directory, send_file
-import os
-from datetime import datetime
-from PIL import Image
-import re
 
 app = Flask(__name__)
 

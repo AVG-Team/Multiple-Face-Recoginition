@@ -7,10 +7,10 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import storage
 
-cred = credentials.Certificate("../../serviceAccountKey.json")
+cred = credentials.Certificate("../../service.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://face-recoginiton-default-rtdb.firebaseio.com/",
-    'storageBucket': "face-recoginiton.appspot.com"
+    'databaseURL': "face-recoginition-ffed5-default-rtdb.firebaseio.com",
+    'storageBucket': "face-recoginition-ffed5.appspot.com"
 })
 
 
@@ -61,7 +61,7 @@ encodeListKnown = findEncodings(imgList)
 encodeListKnownWithIds = [encodeListKnown, studentIds]
 print("Encoding Complete")
 
-file = open("EncodeFileV2.p", 'wb')
+file = open("EncodeFileV3.p", 'wb')
 pickle.dump(encodeListKnownWithIds, file)
 file.close()
 print("File Saved")

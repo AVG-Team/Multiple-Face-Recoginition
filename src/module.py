@@ -3,8 +3,8 @@ import re
 import pickle
 import numpy as np
 import cv2
+import math
 import face_recognition
-import cvzone
 from firebase_admin import db
 from firebase_admin import storage
 from datetime import datetime
@@ -13,10 +13,10 @@ from firebase_admin import credentials
 import csv
 
 # region Init Firebase
-cred = credentials.Certificate("../serviceAccountKey.json")
+cred = credentials.Certificate("../service.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://face-recoginiton-default-rtdb.firebaseio.com/",
-    'storageBucket': "face-recoginiton.appspot.com"
+    'databaseURL': "https://face-recoginition-ffed5-default-rtdb.firebaseio.com",
+    'storageBucket': "face-recoginition-ffed5.appspot.com"
 })
 
 bucket = storage.bucket()
@@ -40,6 +40,11 @@ def getStudentId(imageName):
         return
 
 
+def face_distance_to_conf(face_distance):
+    Percentage = 1.0 - face_distance
+    return Percentage
+
+
 # endregion
 def recognition_face(input, timestamp):
     studentIdTmp = 0
@@ -49,7 +54,7 @@ def recognition_face(input, timestamp):
 
     # Load the encoding file
     print("Loading Encode File ...")
-    file = open('data preprocessing/t1_EncodeFile.p', 'rb')
+    file = open('data preprocessing/EncodeFileV3.p', 'rb')
     encodeListKnownWithIds = pickle.load(file)
     file.close()
     encodeListKnown, studentIds = encodeListKnownWithIds
@@ -86,9 +91,11 @@ def recognition_face(input, timestamp):
             print("test")
             if matches[matchIndex]:
                 print("Known Face Detected")
+                conf = face_distance_to_conf(np.min(faceDis))
                 imageName = studentIds[matchIndex]
                 studentIdTmp = getStudentId(imageName)
                 studentInfo = db.reference(f'Students/{studentIdTmp}').get()
+                print("Accuracy as a Percentage là {:.0%}".format(conf))
                 y1, x2, y2, x1 = faceLoc
                 if counter == 0:
                     counter = 1
@@ -97,9 +104,10 @@ def recognition_face(input, timestamp):
                 if counter == 1:
                     # Get the Data
                     studentInfo = db.reference(f'Students/{studentIdTmp}').get()
-                    print(studentInfo)
+                    print( studentInfo)
                     # Get the Image from the storage
-                    blob = bucket.get_blob(f'Images/{studentIdTmp}/{imageName}')
+                    print(studentIdTmp, imageName, f'Images/{studentIdTmp}/{imageName}')
+                    blob = bucket.get_blob(f'Images/{studentIdTmp}/{imageName}' + ".png")
                     array = np.frombuffer(blob.download_as_string(), np.uint8)
                     imgStudent = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
                     # Update data of attendance
@@ -162,3 +170,5 @@ def recognition_face(input, timestamp):
                 writer.writerow(student)
     return listStudentInfo
 
+
+recognition_face("../Test/huy.jpg", datetime.now().strftime("%Y%m%d%H%M"))

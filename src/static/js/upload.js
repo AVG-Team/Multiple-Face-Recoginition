@@ -98,8 +98,10 @@ class UploadModal {
             }
             // …or continue with progress
             if (this.progress < 1) {
+                console.log(this.progress)
+                if (this.progress === 0.09)
+                    await uploadImg(this.el?.querySelector("#file").files[0]);
                 this.progress += 0.01;
-                await uploadImg(this.el?.querySelector("#file").files[0]);
                 this.progressTimeout = setTimeout(this.progressLoop.bind(this), 50);
             } else if (this.progress >= 1) {
                 this.progressTimeout = setTimeout(() => {

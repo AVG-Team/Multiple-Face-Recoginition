@@ -5,15 +5,15 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import storage
 
-cred = credentials.Certificate("../../serviceAccountKey.json")
+cred = credentials.Certificate("../../service.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://face-recoginiton-default-rtdb.firebaseio.com/",
-    'storageBucket': "face-recoginiton.appspot.com"
+    'databaseURL': "https://face-recoginition-ffed5-default-rtdb.firebaseio.com",
+    'storageBucket': "face-recoginition-ffed5.appspot.com"
 })
 
-folderPath = "../../Images/three_year"
+folderPath = "../../Images/processed"
 
-folderUpload = "three_year_upload"
+folderUpload = "Images"
 pathList = os.listdir(folderPath)
 print(pathList)
 imgList = []
@@ -33,4 +33,3 @@ for path in pathList:
         blob.upload_from_filename(filename)
 
 print("success")
-
