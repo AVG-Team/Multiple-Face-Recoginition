@@ -105,7 +105,6 @@ def attendances():
         for row in csv_reader:
             info_list[row['id']] = row['name']
 
-        print(info_list,info_list['2180607368'])
     return render_template('attendances.html', images=image_list, folder=folder_name, info=info_list)
 
 def file_exists(file_path):
