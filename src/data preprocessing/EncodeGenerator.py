@@ -24,7 +24,7 @@ def extract_first_number(identifier):
 
 # Importing student images
 
-folderPath = '../../Images/three_year'
+folderPath = '../../Images/processed'
 pathList = os.listdir(folderPath)
 print(pathList)
 imgList = []
@@ -34,7 +34,8 @@ for path in pathList:
     files = os.listdir(folderPathName)
     for file in files:
         imgList.append(cv2.imread(os.path.join(folderPathName, file)))
-        studentIds.append(extract_first_number(file))
+        fileName = os.path.splitext(file)[0]
+        studentIds.append(fileName)
 
 
 def findEncodings(imagesList):
@@ -60,7 +61,7 @@ encodeListKnown = findEncodings(imgList)
 encodeListKnownWithIds = [encodeListKnown, studentIds]
 print("Encoding Complete")
 
-file = open("t_EncodeFile.p", 'wb')
+file = open("EncodeFileV2.p", 'wb')
 pickle.dump(encodeListKnownWithIds, file)
 file.close()
 print("File Saved")
