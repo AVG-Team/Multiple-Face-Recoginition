@@ -54,7 +54,7 @@ def recognition_face(input, timestamp):
 
     # Load the encoding file
     print("Loading Encode File ...")
-    file = open('data preprocessing/EncodeFileV3.p', 'rb')
+    file = open('data preprocessing/EncodeFileThree.p', 'rb')
     encodeListKnownWithIds = pickle.load(file)
     file.close()
     encodeListKnown, studentIds = encodeListKnownWithIds
@@ -85,7 +85,7 @@ def recognition_face(input, timestamp):
         i = 0
         for encodeFace, faceLoc in zip(encodeCurFrame, faceCurFrame):
             print(i + 1)
-            matches = face_recognition.compare_faces(encodeListKnown, encodeFace, tolerance=0.5)
+            matches = face_recognition.compare_faces(encodeListKnown, encodeFace, tolerance=0.4)
             faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
             matchIndex = np.argmin(faceDis)
             print("test")
@@ -104,7 +104,7 @@ def recognition_face(input, timestamp):
                 if counter == 1:
                     # Get the Data
                     studentInfo = db.reference(f'Students/{studentIdTmp}').get()
-                    print( studentInfo)
+                    print(studentInfo)
                     # Get the Image from the storage
                     print(studentIdTmp, imageName, f'Images/{studentIdTmp}/{imageName}')
                     blob = bucket.get_blob(f'Images/{studentIdTmp}/{imageName}' + ".png")
@@ -171,4 +171,3 @@ def recognition_face(input, timestamp):
     return listStudentInfo
 
 
-recognition_face("../Test/huy.jpg", datetime.now().strftime("%Y%m%d%H%M"))

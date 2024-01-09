@@ -67,7 +67,6 @@
 							<div class="modal__progress-fill" data-progress-fill></div>
 						</div>
 					</div>
-					<a id="btn_open_link" class="modal__button" style="text-decoration: none;" type="button" target = "_blank">Open Link</a>
 					<button class="modal__button" type="button" data-action="cancel">Cancel</button>
 				</div>
 			</div>
@@ -82,7 +81,7 @@
 				<h2 class="modal__title">Upload Successful!</h2>
 				<p class="modal__message">Your file has been uploaded. You can copy the link to your clipboard.</p>
 				<div class="modal__actions modal__actions--center">
-					<button class="modal__button" type="button" data-action="copy">Copy Link</button>
+					<a class="modal__button" data-action="copy" target="_blank" id="folder_open">Open Link</a>
 					<a id="btn_done" class="modal__button" type="button" data-action="cancel">Done</a>
 				</div>
 			</div>

@@ -167,8 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let minutes = currentTime.getMinutes().toString().padStart(2, '0');
         let seconds = currentTime.getSeconds().toString().padStart(2, '0');
 
-        let formattedTime = hours + ':' + minutes + ':' + seconds;
-        timerElement.textContent = formattedTime;
+        timerElement.textContent = hours + ':' + minutes + ':' + seconds;
     }
 
     // Update the timer every second
@@ -246,6 +245,4 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.classList.add("hidden")
         document.getElementById('upload_form').classList.remove("hidden")
     });
-
-
 });

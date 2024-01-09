@@ -24,7 +24,7 @@ def extract_first_number(identifier):
 
 # Importing student images
 
-folderPath = '../../Images/processed'
+folderPath = '../../Images/1'
 pathList = os.listdir(folderPath)
 print(pathList)
 imgList = []
@@ -58,11 +58,8 @@ encodeListKnown = findEncodings(imgList)
 encodeListKnownWithIds = [encodeListKnown, studentIds]
 
 print("Encoding Complete", len(studentIds), len(encodeListKnown))
-print(studentIds)
-print(encodeListKnown)
-print(encodeListKnownWithIds)
 
-file = open("FinalEncode.p", 'wb')
+file = open("testme.p", 'wb')
 pickle.dump(encodeListKnownWithIds, file)
 file.close()
 print("File Saved")

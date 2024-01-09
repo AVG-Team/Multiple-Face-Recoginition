@@ -11,6 +11,10 @@
 	--trans-dur: 0.3s;
 	font-size: calc(16px + (20 - 16) * (100vw - 320px) / (2560 - 320));
 }
+
+#folder_open {
+	text-decoration: none;
+}
 body,
 button {
 	font: 1em/1.5 Nunito, Helvetica, sans-serif;
@@ -84,6 +88,7 @@ body {
 	-webkit-tap-highlight-color: transparent;
 }
 .modal__button {
+	text-align: center;
 	background-color: hsla(var(--hue),10%,50%,0.2);
 	border-radius: 0.25rem;
 	font-size: 0.75em;

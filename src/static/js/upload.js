@@ -1,9 +1,9 @@
-window.addEventListener("load",() => {
-	const upload = new UploadModal("#upload");
+window.addEventListener("load", () => {
+    const upload = new UploadModal("#upload");
 });
+
 class UploadModal {
     filename = "";
-    isCopying = false;
     isUploading = false;
     progress = 0;
     progressTimeout = null;
@@ -11,13 +11,15 @@ class UploadModal {
 
     constructor(el) {
         this.el = document.querySelector(el);
-        this.el?.addEventListener("click",this.action.bind(this));
-        this.el?.querySelector("#file")?.addEventListener("change",this.fileHandle.bind(this));
+        this.el?.addEventListener("click", this.action.bind(this));
+        this.el?.querySelector("#file")?.addEventListener("change", this.fileHandle.bind(this));
     }
+
     action(e) {
         this[e.target?.getAttribute("data-action")]?.();
         this.stateDisplay();
     }
+
     cancel() {
         this.isUploading = false;
         this.progress = 0;
@@ -27,24 +29,7 @@ class UploadModal {
         this.progressDisplay();
         this.fileReset();
     }
-    async copy() {
-        const copyButton = this.el?.querySelector("[data-action='copy']");
 
-        if (!this.isCopying && copyButton) {
-            // disable
-            this.isCopying = true;
-            copyButton.style.width = `${copyButton.offsetWidth}px`;
-            copyButton.disabled = true;
-            copyButton.textContent = "Copied!";
-            navigator.clipboard.writeText(this.filename);
-            await new Promise(res => setTimeout(res, 1000));
-            // reenable
-            this.isCopying = false;
-            copyButton.removeAttribute("style");
-            copyButton.disabled = false;
-            copyButton.textContent = "Open Link";
-        }
-    }
     fail() {
         this.isUploading = false;
         this.progress = 0;
@@ -52,9 +37,11 @@ class UploadModal {
         this.state = 2;
         this.stateDisplay();
     }
+
     file() {
         this.el?.querySelector("#file").click();
     }
+
     fileDisplay(name = "") {
         // update the name
         this.filename = name;
@@ -65,9 +52,10 @@ class UploadModal {
         // show the file
         this.el?.setAttribute("data-ready", this.filename ? "true" : "false");
     }
+
     fileHandle(e) {
         return new Promise(() => {
-            const { target } = e;
+            const {target} = e;
             if (target?.files.length) {
                 let reader = new FileReader();
                 reader.onload = e2 => {
@@ -77,11 +65,13 @@ class UploadModal {
             }
         });
     }
+
     fileReset() {
         const fileField = this.el?.querySelector("#file");
         if (fileField) fileField.value = null;
         this.fileDisplay();
     }
+
     progressDisplay() {
         const progressValue = this.el?.querySelector("[data-progress-value]");
         const progressFill = this.el?.querySelector("[data-progress-fill]");
@@ -90,6 +80,7 @@ class UploadModal {
         if (progressValue) progressValue.textContent = `${progressTimes100}%`;
         if (progressFill) progressFill.style.transform = `translateX(${progressTimes100}%)`;
     }
+
     async progressLoop() {
         this.progressDisplay();
 
@@ -99,8 +90,9 @@ class UploadModal {
             // …or continue with progress
             if (this.progress < 1) {
                 console.log(this.progress)
-                if (this.progress === 0.09)
+                if (this.progress === 0.09) {
                     await uploadImg(this.el?.querySelector("#file").files[0]);
+                }
                 this.progress += 0.01;
                 this.progressTimeout = setTimeout(this.progressLoop.bind(this), 50);
             } else if (this.progress >= 1) {
@@ -114,14 +106,17 @@ class UploadModal {
             }
         }
     }
+
     stateDisplay() {
         this.el?.setAttribute("data-state", `${this.state}`);
     }
+
     success() {
         this.isUploading = false;
         this.state = 3;
         this.stateDisplay();
     }
+
     upload() {
         if (!this.isUploading) {
             this.isUploading = true;
@@ -140,80 +135,49 @@ close_btn.addEventListener("click", () => {
     document.body.style.height = "100vh";
 });
 
+async function uploadImg(fileUpload) {
+    try {
+        const file = fileUpload;
+        const formData = new FormData();
+        formData.append('file', file);
 
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        });
 
-
-async function uploadImg(fileUpload)
-{
-            const file = fileUpload;
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData,
-            });
-
+        if (response.ok) {
             const data = await response.json();
+            console.log(data)
+            alert("Uploaded successfully: " + data.message);
+            console.log('Uploaded successfully: ', data.message);
+
+
+            const open = document.getElementById("folder_open");
+            console.log(open)
+            open.href = "/attendances?q=" + data.folder;
+        } else {
+            alert("Error when uploading: " + data.error);
+            console.error('Error when uploading: ', data.error);
+        }
+    } catch (e) {
+        alert("Error when uploading: " + e);
+        console.error('Error when uploading: ', e);
+    }
 
 }
 
-const buttonOpenLink = document.getElementById("btn_open_link");
-buttonOpenLink.addEventListener('click', function(event) {
-  const fileInput = document.getElementById('file'); // Assuming 'file' is the ID of your file input
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-    const imageUrl = e.target.result;
-
-    // Create a Blob from the Data URL
-    const blob = new Blob([imageUrl], { type: 'image/png' });
-
-    // Create a URL for the Blob
-    const blobUrl = URL.createObjectURL(blob);
-
-    // Create a new HTML page content with the image and a hyperlink
-    const newPageContent = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Image Preview</title>
-      </head>
-      <body>
-        <a href="${imageUrl}" target="_blank">
-          <img src="${imageUrl}" alt="Preview">
-        </a>
-      </body>
-      </html>
-    `;
-
-    const newPageBlob = new Blob([newPageContent], { type: 'text/html' });
-    const newPageUrl = URL.createObjectURL(newPageBlob);
-
-    window.open(newPageUrl, '_blank');
-  };
-
-  if (fileInput.files && fileInput.files[0]) {
-    reader.readAsDataURL(fileInput.files[0]);
-  }
-});
-
-
-
-
-document.getElementById('file').addEventListener('change', function(event) {
-      const fileInput = event.target;
-      preview.classList.remove("hidden");
-      if (fileInput.files && fileInput.files[0]) {
+document.getElementById('file').addEventListener('change', function (event) {
+    const fileInput = event.target;
+    previewImage.classList.remove("hidden");
+    if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
 
         reader.onload = function (e) {
-          previewImage.src = e.target.result;
+            previewImage.src = e.target.result;
         };
 
-       reader.readAsDataURL(fileInput.files[0]);
-      }
-      document.body.style.height = "200vh";
-    });
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+    document.body.style.height = "200vh";
+});
