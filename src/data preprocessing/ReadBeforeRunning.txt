@@ -1,0 +1,1 @@
+JSON file should have the same structure as the sample file to avoid errors as much as possible

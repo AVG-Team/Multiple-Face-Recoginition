@@ -9,11 +9,12 @@ from firebase_admin import storage
 
 cred = credentials.Certificate("../../service.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': "face-recoginition-ffed5-default-rtdb.firebaseio.com",
-    'storageBucket': "face-recoginition-ffed5.appspot.com"
+    'databaseURL': "",
+    'storageBucket': ""
 })
 
 
+# Input : 123_1223.png => output = 123_1223
 def extract_first_number(identifier):
     numbers = [int(num) for num in identifier.split('_') if num.isdigit()]
     if numbers:
@@ -22,8 +23,7 @@ def extract_first_number(identifier):
         return ''.join(char for char in identifier if char.isdigit())
 
 
-# Importing student images
-
+# studentIds get name from folderPath
 folderPath = '../../Images/processed'
 pathList = os.listdir(folderPath)
 print(pathList)
@@ -39,22 +39,24 @@ for path in pathList:
         print(fileName)
 
 
+# Encode image and encodeList get image encode from folderPath
 def findEncodings(imagesList):
     flag = 0
     encodeList = []
     for img in imagesList:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         flag += 1
+# num_jitters = 100 : randomly distort your image 100 times (randomly zoomed, rotated, translated, flipped)
         face_encodings = face_recognition.face_encodings(img, num_jitters=100)
         print(flag)
         if face_encodings:
             encodeList.append(face_encodings[0])
-
     return encodeList
 
 
 print("Encoding Started ...")
 encodeListKnown = findEncodings(imgList)
+# Encode List Known With Ids
 encodeListKnownWithIds = [encodeListKnown, studentIds]
 
 print("Encoding Complete", len(studentIds), len(encodeListKnown))

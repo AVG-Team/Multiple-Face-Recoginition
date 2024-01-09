@@ -5,9 +5,9 @@ import json
 
 cred = credentials.Certificate("../../service.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://face-recoginition-ffed5-default-rtdb.firebaseio.com",
+    'databaseURL': "",
 })
-
+# DB : Students / IdStudents :
 ref = db.reference('Students')
 
 with open('data_train.json', 'r') as json_file:

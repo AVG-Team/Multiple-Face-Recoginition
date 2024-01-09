@@ -24,12 +24,14 @@ bucket = storage.bucket()
 listStudentInfo = []
 
 
+# resize image to increase speed
 def resize_image(image, target_width):
     height, width = image.shape[:2]
     scale_factor = target_width / width
     return cv2.resize(image, (int(width * scale_factor), int(height * scale_factor)))
 
 
+# input : 12345_3 , 12345 || output : 12345, 12345
 def getStudentId(imageName):
     match = re.search(r'(\d+)', imageName)
 
@@ -40,15 +42,15 @@ def getStudentId(imageName):
         return
 
 
+# face distance to conf ( accuracy )
 def face_distance_to_conf(face_distance):
     Percentage = 1.0 - face_distance
     return Percentage
 
 
-# endregion
-def recognition_face(input, timestamp):
+def recognition_face(input, folder):
     studentIdTmp = 0
-    outputFolder = '../Attendance/' + timestamp + '/'
+    outputFolder = '../Attendance/' + folder + '/'
 
     # print(len(imgModeList))
 
@@ -74,9 +76,14 @@ def recognition_face(input, timestamp):
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
     print("start")
+    # number_of_times_to_upsample = 2 => that the original image will be scaled up twice when looking for faces.
+    # Which face detection model to use. "hog" is less accurate but faster on CPUs. "cnn" is a more accurate
+    #                   deep-learning model which is GPU/CUDA accelerated (if available). The default is "hog".
     faceCurFrame = face_recognition.face_locations(imgS, number_of_times_to_upsample=2, model="cnn")
 
     print("start encode")
+
+    # num_jitters = 100 : randomly distort your image 100 times (randomly zoomed, rotated, translated, flipped)
     encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame, num_jitters=100)
 
     print("check")
@@ -85,6 +92,10 @@ def recognition_face(input, timestamp):
         i = 0
         for encodeFace, faceLoc in zip(encodeCurFrame, faceCurFrame):
             print(i + 1)
+            # matches : return array include true and false
+            # faceDis : return array include 0 to 1
+            # matchIndex : return min(facedis)
+            # The smaller the distance, the more accurate the similarity
             matches = face_recognition.compare_faces(encodeListKnown, encodeFace, tolerance=0.4)
             faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
             matchIndex = np.argmin(faceDis)
@@ -95,6 +106,7 @@ def recognition_face(input, timestamp):
                 imageName = studentIds[matchIndex]
                 studentIdTmp = getStudentId(imageName)
                 studentInfo = db.reference(f'Students/{studentIdTmp}').get()
+                # ex : 0.3 to 30% ,...
                 print("Accuracy as a Percentage là {:.0%}".format(conf))
                 y1, x2, y2, x1 = faceLoc
                 if counter == 0:

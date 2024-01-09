@@ -7,10 +7,11 @@ from firebase_admin import storage
 
 cred = credentials.Certificate("../../service.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://face-recoginition-ffed5-default-rtdb.firebaseio.com",
-    'storageBucket': "face-recoginition-ffed5.appspot.com"
+    'databaseURL': "",
+    'storageBucket': ""
 })
 
+# Folder containing processed images ( Images / processed / IdStudents )
 folderPath = "../../Images/processed"
 
 folderUpload = "Images"

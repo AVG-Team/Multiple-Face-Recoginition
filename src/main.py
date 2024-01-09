@@ -9,6 +9,8 @@ from flask import Flask, render_template, request, jsonify, send_from_directory,
 
 from module import recognition_face
 
+# Route
+
 app = Flask(__name__)
 
 UPLOAD_FOLDER = '../Uploads Tmp'
@@ -96,7 +98,7 @@ def attendances():
                 image_list.append(filename)
             except Exception as e:
                 print(f"Tệp {filename} bị lỗi: {str(e)}")
-    csv_file_path =folder_path + "/students.csv"
+    csv_file_path = folder_path + "/students.csv"
     # Mở file CSV
     with open(csv_file_path, 'r', newline='') as file:
         # Đọc dữ liệu từ file CSV
@@ -106,6 +108,7 @@ def attendances():
             info_list[row['id']] = row['name']
 
     return render_template('attendances.html', images=image_list, folder=folder_name, info=info_list)
+
 
 def file_exists(file_path):
     return os.path.exists(file_path) and os.path.isfile(file_path)
@@ -128,7 +131,7 @@ def export_attendance():
     image_path = os.path.join(folder_path, "students.csv")
 
     if file_exists(image_path):
-        return send_file(image_path, as_attachment=True, download_name= datetime.now().strftime("%Y%m%d%H%M%S") + '.csv')
+        return send_file(image_path, as_attachment=True, download_name=datetime.now().strftime("%Y%m%d%H%M%S") + '.csv')
     return "File not found."
 
 
