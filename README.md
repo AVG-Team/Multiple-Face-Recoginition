@@ -11,6 +11,20 @@
 
 ---
 
+## Demo
+![demo](img/demo.png)
+![demo](img/demo1.png)
+![demo](img/demo2.jpg)
+![demo](img/demo3.png)
+![demo](img/demo4.png)
+---
+
+## Features
+  - Attendance by face recognition using a camera.
+  - Attendance by face recognition using uploaded image.
+  - View the list of attendees with timestamps.
+  - Download the list of attendees with timestamps.
+
 ## Prepare development environment
 - C++
 - Python >= 3.3
@@ -139,6 +153,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <div align="center">
 	<table>
 		<tr>
+			<td align="center" valign="top">
+					<img src="./img/avg.jpg" loading="lazy" width="150" height="150">
+	        <br>
+	        <a href="https://facebook.com/avg.team">AVG TEAM</a>
+            <p>
+	          <a title="Organizing">📋</a>
+	        </p>
 			<td align="center" valign="top">
 					<img src="https://github.com/ntd1683.png?s=150" loading="lazy" width="150" height="150">
 	        <br>
