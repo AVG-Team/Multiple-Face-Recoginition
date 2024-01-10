@@ -13,10 +13,10 @@ from firebase_admin import credentials
 import csv
 
 # region Init Firebase
-cred = credentials.Certificate("../service.json")
+cred = credentials.Certificate("../ServiceFirebase.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://face-recoginition-ffed5-default-rtdb.firebaseio.com",
-    'storageBucket': "face-recoginition-ffed5.appspot.com"
+    'databaseURL': "",
+    'storageBucket': ""
 })
 
 bucket = storage.bucket()
@@ -56,7 +56,7 @@ def recognition_face(input, folder):
 
     # Load the encoding file
     print("Loading Encode File ...")
-    file = open('data preprocessing/EncodeFileThree.p', 'rb')
+    file = open('data preprocessing/FinalEncode.p', 'rb')
     encodeListKnownWithIds = pickle.load(file)
     file.close()
     encodeListKnown, studentIds = encodeListKnownWithIds
@@ -169,7 +169,7 @@ def recognition_face(input, folder):
     if len(listStudentInfo) >= 1:
         csv_file_path = "students.csv"
         filenameCsv = os.path.join(outputFolder, csv_file_path)
-        with open(filenameCsv, mode='w', newline='') as file:
+        with open(filenameCsv, mode='w', newline='', encoding='utf-8') as file:
             fieldnames = ["id", "last_attendance_time", "major", "name", "standing", "starting_year",
                           "total_attendance", "attendances_time", "year"]
             writer = csv.DictWriter(file, fieldnames=fieldnames)

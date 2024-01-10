@@ -100,7 +100,7 @@ def attendances():
                 print(f"Tệp {filename} bị lỗi: {str(e)}")
     csv_file_path = folder_path + "/students.csv"
     # Mở file CSV
-    with open(csv_file_path, 'r', newline='') as file:
+    with open(csv_file_path, 'r', newline='', encoding='utf-8') as file:
         # Đọc dữ liệu từ file CSV
         csv_reader = csv.DictReader(file)
         # Lặp qua từng dòng và hiển thị thông tin

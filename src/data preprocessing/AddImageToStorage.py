@@ -5,7 +5,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import storage
 
-cred = credentials.Certificate("../../service.json")
+cred = credentials.Certificate("../../ServiceFirebase.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': "",
     'storageBucket': ""

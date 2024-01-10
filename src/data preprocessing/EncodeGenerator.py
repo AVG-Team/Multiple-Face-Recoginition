@@ -7,7 +7,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import storage
 
-cred = credentials.Certificate("../../service.json")
+cred = credentials.Certificate("../../ServiceFirebase.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': "",
     'storageBucket': ""
@@ -60,9 +60,6 @@ encodeListKnown = findEncodings(imgList)
 encodeListKnownWithIds = [encodeListKnown, studentIds]
 
 print("Encoding Complete", len(studentIds), len(encodeListKnown))
-print(studentIds)
-print(encodeListKnown)
-print(encodeListKnownWithIds)
 
 file = open("FinalEncode.p", 'wb')
 pickle.dump(encodeListKnownWithIds, file)

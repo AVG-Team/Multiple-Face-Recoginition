@@ -91,7 +91,11 @@ class UploadModal {
             if (this.progress < 1) {
                 console.log(this.progress)
                 if (this.progress === 0.09) {
-                    await uploadImg(this.el?.querySelector("#file").files[0]);
+                    let success = await uploadImg(this.el?.querySelector("#file").files[0]);
+
+                    !success ? this.fail() : console.log("success");
+
+
                 }
                 this.progress += 0.01;
                 this.progressTimeout = setTimeout(this.progressLoop.bind(this), 50);
@@ -136,6 +140,7 @@ close_btn.addEventListener("click", () => {
 });
 
 async function uploadImg(fileUpload) {
+    let success = false;
     try {
         const file = fileUpload;
         const formData = new FormData();
@@ -146,7 +151,9 @@ async function uploadImg(fileUpload) {
             body: formData,
         });
 
-        if (response.ok) {
+        if ('error' in response) {
+            success = false
+        } else if (response.ok) {
             const data = await response.json();
             console.log(data)
             alert("Uploaded successfully: " + data.message);
@@ -156,6 +163,7 @@ async function uploadImg(fileUpload) {
             const open = document.getElementById("folder_open");
             console.log(open)
             open.href = "/attendances?q=" + data.folder;
+            success = true;
         } else {
             alert("Error when uploading: " + data.error);
             console.error('Error when uploading: ', data.error);
@@ -164,7 +172,7 @@ async function uploadImg(fileUpload) {
         alert("Error when uploading: " + e);
         console.error('Error when uploading: ', e);
     }
-
+    return success;
 }
 
 document.getElementById('file').addEventListener('change', function (event) {
